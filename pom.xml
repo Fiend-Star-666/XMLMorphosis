@@ -38,6 +38,13 @@
             <version>5.11.0</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.mwiede</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.2.18</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -114,7 +121,7 @@
     </build>
     <repositories>
         <repository>
-            <id/>
+            <id>maven-central</id>
             <url>https://repo.maven.apache.org/maven2/</url>
         </repository>
     </repositories>
