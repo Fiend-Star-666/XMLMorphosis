@@ -24,6 +24,43 @@
             <version>${azure.functions.java.library.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+            <version>1.18.34</version>
+        </dependency>
+
+        <!-- Logging -->
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.1.0-alpha1</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.5.6</version>
+        </dependency>
+
+        <!-- JUnit 5 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -32,6 +69,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Mockito -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
@@ -72,18 +110,18 @@
                     <appServicePlanName>java-functions-app-service-plan</appServicePlanName>
                     <!-- function app region-->
                     <!-- refers https://github.com/microsoft/azure-maven-plugins/wiki/Azure-Functions:-Configuration-Details#supported-regions for all valid values -->
-                    <region>westus</region>
+                    <region>eastus</region>
                     <!-- function pricingTier, default to be consumption if not specified -->
                     <!-- refers https://github.com/microsoft/azure-maven-plugins/wiki/Azure-Functions:-Configuration-Details#supported-pricing-tiers for all valid values -->
-                    <!-- <pricingTier></pricingTier> -->
+                     <pricingTier>Consumption</pricingTier>
 
                     <!-- Whether to disable application insights, default is false -->
                     <!-- refers https://github.com/microsoft/azure-maven-plugins/wiki/Azure-Functions:-Configuration-Details for all valid configurations for application insights-->
                     <!-- <disableAppInsights></disableAppInsights> -->
                     <runtime>
                         <!-- runtime os, could be windows, linux or docker-->
-                        <os>windows</os>
-                        <javaVersion>8</javaVersion>
+                        <os>linux</os>
+                        <javaVersion>21</javaVersion>
                         <!-- for docker function, please set the following parameters -->
                         <!-- <image>[hub-user/]repo-name[:tag]</image> -->
                         <!-- <serverId></serverId> -->
@@ -116,6 +154,50 @@
                         </fileset>
                     </filesets>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.12</version>
+                <configuration>
+                    <excludes>
+                        <!--<exclude>**/utils/**/*</exclude>-->
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <rule>
+                                    <element>PACKAGE</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>INSTRUCTION</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.0</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

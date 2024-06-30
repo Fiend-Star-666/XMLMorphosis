@@ -5,9 +5,7 @@ import com.jcraft.jsch.*;
 import java.util.Properties;
 import java.util.Vector;
 
-/**
- * A simple SFTP client using JSCH http://www.jcraft.com/jsch/
- */
+
 public final class SftpClient {
     private final String host;
     private final int port;
