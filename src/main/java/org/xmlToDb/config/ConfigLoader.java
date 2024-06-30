@@ -28,4 +28,7 @@ public class ConfigLoader {
         String property = getProperty(key);
         return Integer.parseInt(System.getenv(property));
     }
+
+    private ConfigLoader() {
+    }
 }

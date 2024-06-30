@@ -8,5 +8,7 @@ public class ParserFactory {
             return new SaxParser();
         }
     }
-}
 
+    private ParserFactory() {
+    }
+}

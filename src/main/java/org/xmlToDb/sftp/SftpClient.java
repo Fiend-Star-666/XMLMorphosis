@@ -374,4 +374,3 @@ public final class SftpClient {
         channel.rename(srcPath, destPath);
     }
 }
-

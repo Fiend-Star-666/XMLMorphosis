@@ -7,4 +7,3 @@ public class ParsedData {
     private String schema;
     private String value;
 }
-

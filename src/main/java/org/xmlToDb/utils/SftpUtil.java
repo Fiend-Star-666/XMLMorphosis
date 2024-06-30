@@ -37,6 +37,6 @@ public class SftpUtil {
     }
 
     private static String formatFinalValue(long originalBytes, double scaledValue, char sizeUnit) {
-        return String.format("%.1f %cB", scaledValue * Long.signum(originalBytes), sizeUnit);
+        return "%.1f %cB".formatted(scaledValue * Long.signum(originalBytes), sizeUnit);
     }
 }

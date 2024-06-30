@@ -6,6 +6,8 @@ import org.xmlToDb.models.ParsedData;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import java.io.ByteArrayInputStream;
+
 public class DomParser implements XmlParser {
     @Override
     public ParsedData parse(String xmlContent, String schemaPath) {
@@ -13,7 +15,7 @@ public class DomParser implements XmlParser {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(new java.io.ByteArrayInputStream(xmlContent.getBytes()));
+            Document document = builder.parse(new ByteArrayInputStream(xmlContent.getBytes()));
 
             // Populate data from XML
             // Example:

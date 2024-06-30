@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class XmlProcessingService {
-    private Map<String, String> schemaMap;
-    private GenericXmlHandler handler;
+    private final Map<String, String> schemaMap;
+    private final GenericXmlHandler handler;
 
     public XmlProcessingService() {
         this.schemaMap = new HashMap<>();
@@ -31,4 +31,3 @@ public class XmlProcessingService {
         }
     }
 }
-

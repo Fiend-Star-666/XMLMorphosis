@@ -7,7 +7,7 @@ import org.xmlToDb.utils.DatabaseConnectionManager;
 import org.xmlToDb.utils.SchemaValidator;
 
 public class GenericXmlHandler implements XmlHandler {
-    private DatabaseConnectionManager dbManager;
+    private final DatabaseConnectionManager dbManager;
 
     public GenericXmlHandler() {
         this.dbManager = DatabaseConnectionManager.getInstance();
