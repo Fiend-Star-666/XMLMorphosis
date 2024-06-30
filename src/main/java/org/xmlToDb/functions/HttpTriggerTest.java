@@ -1,21 +1,23 @@
 package org.xmlToDb.functions;
 
-import java.util.*;
-import com.microsoft.azure.functions.annotation.*;
 import com.microsoft.azure.functions.*;
+import com.microsoft.azure.functions.annotation.AuthorizationLevel;
+import com.microsoft.azure.functions.annotation.FunctionName;
+
+import java.util.Optional;
 
 /**
  * Azure Functions with HTTP Trigger.
  */
-public class HttpTriggerJava {
+public class HttpTriggerTest {
     /**
-     * This function listens at endpoint "/api/HttpTriggerJava". Two ways to invoke it using "curl" command in bash:
-     * 1. curl -d "HTTP Body" {your host}/api/HttpTriggerJava
-     * 2. curl {your host}/api/HttpTriggerJava?name=HTTP%20Query
+     * This function listens at endpoint "/api/HttpTriggerTest". Two ways to invoke it using "curl" command in bash:
+     * 1. curl -d "HTTP Body" {your host}/api/HttpTriggerTest
+     * 2. curl {your host}/api/HttpTriggerTest?name=HTTP%20Query
      */
-    @FunctionName("HttpTriggerJava")
+    @FunctionName("HttpTriggerTest")
     public HttpResponseMessage run(
-            @HttpTrigger(name = "req", methods = {HttpMethod.GET, HttpMethod.POST, HttpMethod.OPTIONS}, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<String>> request,
+            @com.microsoft.azure.functions.annotation.HttpTrigger(name = "req", methods = {HttpMethod.GET, HttpMethod.POST, HttpMethod.OPTIONS}, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<String>> request,
             final ExecutionContext context) {
         context.getLogger().info("Java HTTP trigger processed a request.");
 

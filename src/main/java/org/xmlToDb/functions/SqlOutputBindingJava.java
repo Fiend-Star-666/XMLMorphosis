@@ -8,7 +8,7 @@
 //import com.microsoft.azure.functions.OutputBinding;
 //import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 //import com.microsoft.azure.functions.annotation.FunctionName;
-//import com.microsoft.azure.functions.annotation.HttpTrigger;
+//import com.microsoft.azure.functions.annotation.HttpTriggerTest;
 //import com.microsoft.azure.functions.sql.annotation.SQLOutput;
 //
 //import java.io.IOException;
@@ -25,7 +25,7 @@
 //     */
 //    @FunctionName("SqlOutputBindingJava")
 //    public HttpResponseMessage run(
-//            @HttpTrigger(
+//            @HttpTriggerTest(
 //                name = "req",
 //                methods = {HttpMethod.POST},
 //                authLevel = AuthorizationLevel.FUNCTION,

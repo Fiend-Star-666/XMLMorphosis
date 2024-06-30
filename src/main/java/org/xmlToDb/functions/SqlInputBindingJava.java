@@ -6,7 +6,7 @@
 //import com.microsoft.azure.functions.HttpStatus;
 //import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 //import com.microsoft.azure.functions.annotation.FunctionName;
-//import com.microsoft.azure.functions.annotation.HttpTrigger;
+//import com.microsoft.azure.functions.annotation.HttpTriggerTest;
 //import com.microsoft.azure.functions.sql.annotation.CommandType;
 //import com.microsoft.azure.functions.sql.annotation.SQLInput;
 //
@@ -23,7 +23,7 @@
 //     */
 //    @FunctionName("SqlInputBindingJava")
 //    public HttpResponseMessage run(
-//            @HttpTrigger(
+//            @HttpTriggerTest(
 //                name = "req",
 //                methods = {HttpMethod.GET},
 //                authLevel = AuthorizationLevel.FUNCTION,

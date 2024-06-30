@@ -1,4 +1,4 @@
-package org.xmlToDb.functions.rough;
+package org.xmlToDb.utils;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
