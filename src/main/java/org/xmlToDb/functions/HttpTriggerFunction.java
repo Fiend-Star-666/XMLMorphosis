@@ -105,7 +105,7 @@ public class HttpTriggerFunction extends BaseFunction {
 
     private void sendToDeadLetterQueue(String filePath, String errorMessage) {
         try {
-            String message = String.format("File: %s, Error: %s", filePath, errorMessage);
+            String message = "File: %s, Error: %s".formatted(filePath, errorMessage);
             queueService.sendToDeadLetterQueue(message);
         } catch (Exception e) {
             // Log the error, but don't throw it to avoid disrupting the main process

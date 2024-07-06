@@ -16,4 +16,7 @@ public class QueueServiceFactory {
                 throw new IllegalArgumentException("Unsupported queue type: " + queueType);
         }
     }
+
+    private QueueServiceFactory() {
+    }
 }

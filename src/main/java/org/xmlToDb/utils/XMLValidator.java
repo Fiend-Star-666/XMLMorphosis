@@ -41,4 +41,7 @@ public class XMLValidator {
 
         throw new ClassCastException("Unmarshalled object is not of type " + clazz.getName());
     }
+
+    private XMLValidator() {
+    }
 }

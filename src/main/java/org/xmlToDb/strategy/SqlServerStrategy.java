@@ -26,4 +26,3 @@ public class SqlServerStrategy implements DatabaseStrategy {
 
     }
 }
-

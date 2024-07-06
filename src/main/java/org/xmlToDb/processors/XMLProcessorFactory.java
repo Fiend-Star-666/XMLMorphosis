@@ -42,7 +42,7 @@ public class XMLProcessorFactory {
                         logger.warn("Class {} does not implement XMLProcessor interface", processorClass);
                     }
                 } catch (Exception e) {
-                    logger.error("Error loading XML processor: " + processorClass, e);
+                    logger.error("Error loading XML processor: {}", processorClass, e);
                 }
             }
         } else {

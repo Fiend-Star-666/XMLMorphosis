@@ -8,4 +8,3 @@ public interface DatabaseStrategy {
 
     void save(DataRetrievalLog dataRetrievalLog);
 }
-

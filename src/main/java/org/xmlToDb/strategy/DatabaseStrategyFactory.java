@@ -10,5 +10,7 @@ public class DatabaseStrategyFactory {
                 throw new IllegalArgumentException("Unknown database type: " + dbType);
         }
     }
-}
 
+    private DatabaseStrategyFactory() {
+    }
+}

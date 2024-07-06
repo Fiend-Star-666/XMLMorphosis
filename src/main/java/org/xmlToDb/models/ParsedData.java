@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class ParsedData {
     private String rootElementName;
-    private Map<String, String> fields;
-    private List<String> nestedValues;
+    private final Map<String, String> fields;
+    private final List<String> nestedValues;
 
     public ParsedData() {
         this.fields = new HashMap<>();
@@ -45,10 +45,10 @@ public class ParsedData {
 
     @Override
     public String toString() {
-        return "ParsedData{" +
-                "rootElementName='" + rootElementName + '\'' +
-                ", fields=" + fields +
-                ", nestedValues=" + nestedValues +
-                '}';
+        return "ParsedData{"
+                + "rootElementName='" + rootElementName + '\''
+                + ", fields=" + fields
+                + ", nestedValues=" + nestedValues
+                + '}';
     }
 }

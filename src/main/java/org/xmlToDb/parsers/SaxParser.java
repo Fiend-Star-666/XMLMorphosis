@@ -47,7 +47,7 @@ public class SaxParser extends DefaultHandler implements XmlParser {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         String currentElement = elementStack.pop();
 
-        if (currentElement.equals("nested")) {
+        if ("nested".equals(currentElement)) {
             data.addNestedValue(currentValue.toString().trim());
         } else {
             data.addField(currentElement, currentValue.toString().trim());

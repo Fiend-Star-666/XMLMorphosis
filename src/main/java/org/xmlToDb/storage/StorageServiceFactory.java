@@ -11,4 +11,7 @@ public class StorageServiceFactory {
                 throw new IllegalArgumentException("Unsupported storage type: " + storageType);
         }
     }
+
+    private StorageServiceFactory() {
+    }
 }

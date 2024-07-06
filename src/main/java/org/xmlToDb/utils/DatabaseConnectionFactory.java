@@ -36,4 +36,7 @@ public class DatabaseConnectionFactory {
         }
         return new DatabaseConnection(config);
     }
+
+    private DatabaseConnectionFactory() {
+    }
 }

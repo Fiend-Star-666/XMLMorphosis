@@ -17,4 +17,7 @@ public class GlobalExceptionHandler {
                 .body("An unexpected error occurred: " + e.getMessage())
                 .build();
     }
+
+    private GlobalExceptionHandler() {
+    }
 }

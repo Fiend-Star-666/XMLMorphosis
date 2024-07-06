@@ -38,9 +38,7 @@ public class DefaultXMLProcessor implements XMLProcessor {
                 if (result.containsKey(nodeName)) {
                     // If this node name already exists, convert to a list or add to existing list
                     Object existing = result.get(nodeName);
-                    if (existing instanceof List) {
-                        @SuppressWarnings("unchecked")
-                        List<Object> list = (List<Object>) existing;
+                    if (existing instanceof List list) {
                         list.add(childValue);
                     } else {
                         List<Object> list = new ArrayList<>();
