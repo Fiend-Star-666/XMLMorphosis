@@ -4,6 +4,7 @@ import com.microsoft.azure.functions.*;
 import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
+import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.Document;
 import org.xml_to_db.config.ConfigLoader;
 import org.xml_to_db.core.processors.XMLProcessor;
@@ -24,6 +25,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 public class HttpTriggerFunction extends BaseFunction {
 
     private final ConfigLoader config = ConfigLoader.getInstance();

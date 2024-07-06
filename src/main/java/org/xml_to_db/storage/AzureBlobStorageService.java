@@ -4,6 +4,7 @@ import com.azure.core.util.BinaryData;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
+import com.azure.storage.blob.models.BlobItem;
 import org.xml_to_db.config.ConfigLoader;
 
 import java.util.List;
@@ -27,9 +28,9 @@ public class AzureBlobStorageService implements StorageService {
     @Override
     public List<String> listFiles(String fileExtension) {
         return containerClient.listBlobs().stream()
-                .map(blobItem -> blobItem.getName())
+                .map(BlobItem::getName)
                 .filter(name -> name.endsWith(fileExtension))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

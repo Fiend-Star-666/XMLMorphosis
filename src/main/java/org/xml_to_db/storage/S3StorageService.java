@@ -26,7 +26,7 @@ public class S3StorageService implements StorageService {
         return s3Client.listObjects(bucketName).getObjectSummaries().stream()
                 .map(S3ObjectSummary::getKey)
                 .filter(key -> key.endsWith(fileExtension))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

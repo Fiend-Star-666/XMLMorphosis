@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AzureQueueHelper {
     private static final Logger logger = LoggerFactory.getLogger(AzureQueueHelper.class);
@@ -42,7 +41,7 @@ public class AzureQueueHelper {
     }
 
     public List<QueueMessageItem> receiveMessages(int maxMessages) {
-        return queueClient.receiveMessages(maxMessages).stream().collect(Collectors.toList());
+        return queueClient.receiveMessages(maxMessages).stream().toList();
     }
 
     public void deleteMessage(QueueMessageItem message) {
