@@ -1,6 +1,6 @@
 # 🚀 XMLMorphosis: The Ultimate XML to DB Transformer 🚀
 
-[![License](https://img.shields.io/badge/license-Custom-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-Custom-blue.svg)](LICENSE.md)
 [![Azure Functions](https://img.shields.io/badge/Azure-Functions-blue?logo=microsoft-azure)](https://azure.microsoft.com/services/functions/)
 [![AWS Lambda](https://img.shields.io/badge/AWS-Lambda-orange?logo=amazon-aws)](https://aws.amazon.com/lambda/)
 

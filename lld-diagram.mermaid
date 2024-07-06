@@ -1,0 +1,78 @@
+classDiagram
+    class HttpTriggerFunction {
+        - processRequest(request, context)
+        - processXmlFile(xmlFilePath, xsdPath, storageService, context)
+        + run(request, context)
+    }
+    class BaseFunction {
+        # execute(request, context, function)
+    }
+    class GlobalExceptionHandler {
+        + handleException(request, e)
+    }
+    class ConfigLoader {
+        - PROPERTIES_FILE : String
+        - properties : Properties
+        + getProperty(key) : String
+        + getIntProperty(key) : int
+    }
+    class StorageServiceFactory {
+        + getStorageService(storageType) : StorageService
+    }
+    class StorageService {
+        <<interface>>
+        + listFiles(fileExtension) : List~String~
+        + readFileContent(filePath) : String
+        + writeFile(filePath, content)
+        + deleteFile(filePath)
+    }
+    class AzureBlobStorageService {
+        - containerClient : BlobContainerClient
+    }
+    class S3StorageService {
+        - s3Client : AmazonS3
+        - bucketName : String
+    }
+    class XMLValidator {
+        + validateXMLSchema(xsdPath, xmlPath) : boolean
+        + parseXml(xmlContent, clazz) : T
+    }
+    class XMLProcessorFactory {
+        - processors : Map~String, XMLProcessor~
+        + getProcessor(xmlPath, xsdPath) : XMLProcessor
+    }
+    class XMLProcessor {
+        <<interface>>
+        + process(document) : Object
+    }
+    class DatabaseConnectionFactory {
+        - configurations : Map~String, DatabaseConfiguration~
+        + getConnection(xmlPath, xsdPath) : DatabaseConnection
+    }
+    class DatabaseConfiguration {
+        - url : String
+        - username : String
+        - password : String
+        - driverClassName : String
+    }
+    class DatabaseConnection {
+        - connection : Connection
+        + save(data, tableName)
+        + close()
+    }
+
+    HttpTriggerFunction --|> BaseFunction
+    HttpTriggerFunction ..> StorageServiceFactory
+    HttpTriggerFunction ..> XMLValidator
+    HttpTriggerFunction ..> XMLProcessorFactory
+    HttpTriggerFunction ..> DatabaseConnectionFactory
+    BaseFunction ..> GlobalExceptionHandler
+    StorageServiceFactory ..> ConfigLoader
+    StorageServiceFactory ..> StorageService
+    AzureBlobStorageService ..|> StorageService
+    S3StorageService ..|> StorageService
+    XMLProcessorFactory ..> XMLProcessor
+    XMLProcessorFactory ..> ConfigLoader
+    DatabaseConnectionFactory ..> DatabaseConfiguration
+    DatabaseConnectionFactory ..> DatabaseConnection
+    DatabaseConnection ..> DatabaseConfiguration
