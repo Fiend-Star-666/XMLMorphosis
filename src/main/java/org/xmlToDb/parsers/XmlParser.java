@@ -1,4 +1,4 @@
-package org.xmlToDb.strategies;
+package org.xmlToDb.parsers;
 
 import org.xmlToDb.models.ParsedData;
 

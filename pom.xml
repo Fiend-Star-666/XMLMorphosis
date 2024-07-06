@@ -83,6 +83,11 @@
             <artifactId>jsch</artifactId>
             <version>0.2.18</version>
         </dependency>
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>azure-storage</artifactId>
+            <version>8.6.6</version>
+        </dependency>
 
     </dependencies>
 

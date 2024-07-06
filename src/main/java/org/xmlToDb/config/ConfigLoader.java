@@ -6,6 +6,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+/**
+ * This class is responsible for loading the application properties
+ * from the application.properties file and then overriding them with the System environment variables.
+ * This helps in maintaining the secrecy.
+ */
 @Slf4j
 public class ConfigLoader {
     private static final String PROPERTIES_FILE = "/application.properties";
