@@ -1,25 +1,38 @@
 package org.xmlToDb.functions;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.microsoft.azure.functions.*;
 import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
-import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Document;
 import org.xmlToDb.config.ConfigLoader;
-import org.xmlToDb.dbModels.DataRetrievalLog;
-import org.xmlToDb.factory.ServiceFactory;
+import org.xmlToDb.core.processors.XMLProcessor;
+import org.xmlToDb.core.processors.XMLProcessorFactory;
 import org.xmlToDb.queue.QueueService;
+import org.xmlToDb.queue.QueueServiceFactory;
 import org.xmlToDb.storage.StorageService;
-import org.xmlToDb.strategy.DatabaseStrategy;
-import org.xmlToDb.utils.BaseFunction;
+import org.xmlToDb.storage.StorageServiceFactory;
+import org.xmlToDb.database.DatabaseConnection;
+import org.xmlToDb.database.DatabaseConnectionFactory;
 import org.xmlToDb.utils.XMLValidator;
 
-import java.io.IOException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.ByteArrayInputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 public class HttpTriggerFunction extends BaseFunction {
+
+    private final ConfigLoader config = ConfigLoader.getInstance();
+    private final QueueService queueService;
+
+    public HttpTriggerFunction() {
+        String queueType = config.getProperty("QUEUE_TYPE");
+        this.queueService = QueueServiceFactory.getQueueService();
+    }
 
     @FunctionName("HttpTriggerFunction")
     public HttpResponseMessage run(
@@ -29,26 +42,19 @@ public class HttpTriggerFunction extends BaseFunction {
         return execute(request, context, this::processRequest);
     }
 
-    private HttpResponseMessage processRequest(HttpRequestMessage<Optional<String>> request, @NotNull ExecutionContext context) {
+    private HttpResponseMessage processRequest(HttpRequestMessage<Optional<String>> request, ExecutionContext context) {
         context.getLogger().info("Processing XML to DB Function");
 
         try {
-            String cloudProvider = ConfigLoader.getProperty("CLOUD_PROVIDER");
-            String dbType = ConfigLoader.getProperty("DB_TYPE");
-            String dbUrl = ConfigLoader.getProperty("DB_URL");
-            String dbUsername = ConfigLoader.getProperty("DB_USERNAME");
-            String dbPassword = ConfigLoader.getProperty("DB_PASSWORD");
+            String storageType = config.getProperty("STORAGE_TYPE");
+            StorageService storageService = StorageServiceFactory.getStorageService(storageType);
 
-            QueueService queueService = ServiceFactory.getQueueService(cloudProvider);
-            StorageService storageService = ServiceFactory.getStorageService(cloudProvider);
-            DatabaseStrategy databaseStrategy = ServiceFactory.getDatabaseStrategy(dbType, dbUrl, dbUsername, dbPassword);
-
-            List<String> xmlFiles = fetchFileList(storageService);
-            List<String> xsdFiles = fetchXsdList(storageService);
+            List<String> xmlFiles = storageService.listFiles("xml");
+            List<String> xsdFiles = storageService.listFiles("xsd");
 
             for (String xmlFilePath : xmlFiles) {
                 for (String xsdFilePath : xsdFiles) {
-                    processXmlFile(xmlFilePath, xsdFilePath, databaseStrategy, queueService, storageService, context);
+                    processXmlFile(xmlFilePath, xsdFilePath, storageService, context);
                 }
             }
 
@@ -61,34 +67,73 @@ public class HttpTriggerFunction extends BaseFunction {
         }
     }
 
-    private void processXmlFile(String xmlFilePath, String xsdFilePath, DatabaseStrategy databaseStrategy,
-                                QueueService queueService, StorageService storageService, ExecutionContext context) {
+    private void processXmlFile(String xmlFilePath, String xsdFilePath, StorageService storageService, ExecutionContext context) {
         try {
             boolean isValid = XMLValidator.validateXMLSchema(xsdFilePath, xmlFilePath);
             if (!isValid) {
                 context.getLogger().warning("Invalid XML Schema for file: " + xmlFilePath);
+                sendToDeadLetterQueue(xmlFilePath, "Invalid XML Schema");
                 return;
             }
 
             String xmlContent = storageService.readFileContent(xmlFilePath);
 
-            XmlMapper xmlMapper = new XmlMapper();
-            DataRetrievalLog dataRetrievalLog = xmlMapper.readValue(xmlContent, DataRetrievalLog.class);
+            // Parse XML to DOM Document
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(new ByteArrayInputStream(xmlContent.getBytes()));
 
-            databaseStrategy.save(dataRetrievalLog);
+            // Process XML
+            XMLProcessor processor = XMLProcessorFactory.getProcessor(xmlFilePath, xsdFilePath);
+            Object processedData = processor.process(document);
+
+            // Save to database
+            try (DatabaseConnection connection = DatabaseConnectionFactory.getConnection(xmlFilePath, xsdFilePath)) {
+                connection.save(processedData, getTableName(xmlFilePath));
+            }
 
             context.getLogger().info("Data processed successfully for file: " + xmlFilePath);
         } catch (Exception e) {
             context.getLogger().severe("Error processing XML file: " + e.getMessage());
-            queueService.sendToDeadLetterQueue(e.getMessage());
+            sendToDeadLetterQueue(xmlFilePath, e.getMessage());
+            // Implement retry mechanism here if needed
+            // For example, you could add the file to a retry queue with a delay
+            // retryQueue.addWithDelay(xmlFilePath, 5000); // 5 seconds delay
         }
     }
 
-    private List<String> fetchFileList(StorageService storageService) throws IOException {
-        return storageService.listFiles("xml");
+    private void sendToDeadLetterQueue(String filePath, String errorMessage) {
+        try {
+            String message = "File: %s, Error: %s".formatted(filePath, errorMessage);
+            queueService.sendToDeadLetterQueue(message);
+        } catch (Exception e) {
+            // Log the error, but don't throw it to avoid disrupting the main process
+            System.err.println("Failed to send message to dead-letter queue: " + e.getMessage());
+        }
     }
 
-    private List<String> fetchXsdList(StorageService storageService) throws IOException {
-        return storageService.listFiles("xsd");
+    private String getTableName(String xmlFilePath) {
+        // Extract the file name from the path
+        Path path = Paths.get(xmlFilePath);
+        String fileName = path.getFileName().toString();
+
+        // Remove the file extension
+        fileName = fileName.replaceFirst("[.][^.]+$", "");
+
+        // Convert to snake_case
+        String snakeCase = camelToSnakeCase(fileName);
+
+        // Prefix with "xml_" and suffix with "_data"
+        return "xml_" + snakeCase + "_data";
+    }
+
+    private String camelToSnakeCase(String str) {
+        // Regular expression to convert camelCase to snake_case
+        String regex = "([a-z])([A-Z]+)";
+        String replacement = "$1_$2";
+        str = str.replaceAll(regex, replacement).toLowerCase();
+
+        // Replace any non-alphanumeric characters with underscore
+        return str.replaceAll("[^a-zA-Z0-9]", "_");
     }
 }

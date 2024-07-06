@@ -1,4 +1,4 @@
-package org.xmlToDb.sftp;
+package org.xmlToDb;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.util.List;
 
 @Slf4j
-public class SftpClientTest {
+public class SftpClientRoughTest {
     private static final String LOCAL_PATH = "src/main/resources/schemas/test-schema.xsd";
     private static final String REMOTE_DIRECTORY = "/testFolder/test";
     private static final String REMOTE_FILE_PATH = REMOTE_DIRECTORY + "/test";

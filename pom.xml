@@ -8,7 +8,8 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Azure Java Functions</name>
+    <name>XMLMorphosis</name>
+    <description>XML to DB Transformer</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,9 +25,17 @@
         <mockito.version>5.11.0</mockito.version>
         <jsch.version>0.2.18</jsch.version>
         <azure.storage.version>8.6.6</azure.storage.version>
+        <aws.sdk.version>2.26.16</aws.sdk.version>
+        <spring.jdbc.version>6.1.10</spring.jdbc.version>
+        <mssql.jdbc.version>12.6.3.jre11</mssql.jdbc.version>
+        <jackson.version>2.17.2</jackson.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <azure.functions.maven.plugin.version>1.24.0</azure.functions.maven.plugin.version>
         <maven.clean.plugin.version>3.1.0</maven.clean.plugin.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
+        <maven.resources.plugin.version>3.3.1</maven.resources.plugin.version>
         <jacoco.version>0.8.12</jacoco.version>
         <rewrite.maven.plugin.version>5.21.0</rewrite.maven.plugin.version>
         <rewrite.logging.frameworks.version>2.4.2</rewrite.logging.frameworks.version>
@@ -35,17 +44,13 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.microsoft.azure.functions</groupId>
-            <artifactId>azure-functions-java-library</artifactId>
-            <version>${azure.functions.java.library.version}</version>
-        </dependency>
 
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
             <version>${lombok.version}</version>
+            <optional>true</optional>
         </dependency>
 
         <!-- Logging -->
@@ -61,7 +66,7 @@
             <version>${logback.version}</version>
         </dependency>
 
-        <!-- JUnit 5 -->
+        <!-- Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
@@ -84,53 +89,103 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- SSH -->
         <dependency>
             <groupId>com.github.mwiede</groupId>
             <artifactId>jsch</artifactId>
             <version>${jsch.version}</version>
         </dependency>
 
+        <!-- Azure Storage -->
         <dependency>
             <groupId>com.microsoft.azure</groupId>
             <artifactId>azure-storage</artifactId>
             <version>${azure.storage.version}</version>
         </dependency>
 
-        <!-- Jackson for XML Parsing -->
         <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-xml</artifactId>
-            <version>2.17.2</version>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-storage-blob</artifactId>
+            <version>12.26.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-storage-queue</artifactId>
+            <version>12.21.1</version>
+        </dependency>
+
+
+        <!-- Azure Functions -->
+        <dependency>
+            <groupId>com.microsoft.azure.functions</groupId>
+            <artifactId>azure-functions-java-library</artifactId>
+            <version>${azure.functions.java.library.version}</version>
         </dependency>
 
         <!-- AWS SDK for S3 and SQS -->
         <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>1.12.757</version>
+        </dependency>
+
+        <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>s3</artifactId>
-            <version>2.26.16</version>
+            <version>${aws.sdk.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-sqs</artifactId>
+            <version>1.12.757</version>
         </dependency>
 
 
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>sqs</artifactId>
-            <version>2.26.16</version>
+            <version>${aws.sdk.version}</version>
         </dependency>
 
         <!-- Spring JDBC for Database Access -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>6.1.10</version>
+            <version>${spring.jdbc.version}</version>
         </dependency>
-
 
         <!-- Microsoft SQL Server JDBC Driver -->
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
-            <version>12.6.3.jre11</version>
+            <version>${mssql.jdbc.version}</version>
         </dependency>
+
+        <!-- XML Processing -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <!-- Additional XML libraries -->
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>2.3.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.9</version>
+        </dependency>
+
+
+        <!-- Annotations -->
+
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
@@ -149,7 +204,15 @@
                 <configuration>
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <release>${java.version}</release>
+                    <compilerArgs>
+                        <arg>-Xlint:unchecked</arg>
+                    </compilerArgs>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven.resources.plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>com.microsoft.azure</groupId>
@@ -285,10 +348,4 @@
             </plugin>
         </plugins>
     </build>
-    <repositories>
-        <repository>
-            <id>maven-central</id>
-            <url>https://repo.maven.apache.org/maven2/</url>
-        </repository>
-    </repositories>
 </project>

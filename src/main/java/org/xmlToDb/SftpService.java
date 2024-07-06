@@ -1,4 +1,4 @@
-package org.xmlToDb.sftp;
+package org.xmlToDb;
 
 public interface SftpService {
 }

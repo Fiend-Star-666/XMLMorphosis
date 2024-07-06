@@ -7,15 +7,17 @@ import com.microsoft.azure.functions.HttpStatus;
 import java.util.Optional;
 
 public class GlobalExceptionHandler {
+    public static HttpResponseMessage handleException(HttpRequestMessage<Optional<String>> request, Exception e) {
+        // Log the exception
+        System.err.println("Exception caught: " + e.getMessage());
+        e.printStackTrace();
 
-    public static HttpResponseMessage handleException(HttpRequestMessage<Optional<String>> request, Throwable throwable) {
-        // Log the exception (can use any logging framework)
-        System.err.println("Exception caught: " + throwable.getMessage());
-        throwable.printStackTrace();
-
-        // Return a standardized error response
+        // Return an error response
         return request.createResponseBuilder(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("An unexpected error occurred: " + throwable.getMessage())
+                .body("An unexpected error occurred: " + e.getMessage())
                 .build();
+    }
+
+    private GlobalExceptionHandler() {
     }
 }
