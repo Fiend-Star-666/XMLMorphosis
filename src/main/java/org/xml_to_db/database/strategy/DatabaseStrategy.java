@@ -1,0 +1,10 @@
+package org.xml_to_db.database.strategy;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.xml_to_db.core.dbModels.DataRetrievalLog;
+
+public interface DatabaseStrategy {
+    JdbcTemplate getJdbcTemplate();
+
+    void save(DataRetrievalLog dataRetrievalLog);
+}
