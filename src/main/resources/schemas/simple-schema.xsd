@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="root">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" name="Record">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="EmployeeNumber" type="xs:unsignedInt" />
+                            <xs:element name="EmployeeLastName" type="xs:string" />
+                            <xs:element name="EmployeeFirstName" type="xs:string" />
+                            <xs:element name="Location" type="xs:string" />
+                            <xs:element name="ODContract-MultipleLocations" type="xs:string" />
+                            <xs:element name="ODContract-SecondaryLocation" type="xs:string" />
+                            <xs:element name="ODContract-LegalEntity" type="xs:string" />
+                            <xs:element name="LocationState" type="xs:string" />
+                            <xs:element name="Region" type="xs:string" />
+                            <xs:element name="EmployeeGender" type="xs:string" />
+                            <xs:element name="EmployeeBirthDate" type="xs:date" />
+                            <xs:element name="OriginalHireDate" type="xs:date" />
+                            <xs:element name="HireDate" type="xs:date" />
+                            <xs:element name="SeniorityDate" type="xs:date" />
+                            <xs:element name="TerminationDate" />
+                            <xs:element name="ODContract-AgreementType" type="xs:string" />
+                            <xs:element name="Job" type="xs:string" />
+                            <xs:element name="ODContract-Renewaldate" type="xs:string" />
+                            <xs:element name="ODContract-Auto-Renew" type="xs:string" />
+                            <xs:element name="ODContract-EndDate" />
+                            <xs:element name="ODContract-ContractSchedule" type="xs:string" />
+                            <xs:element name="ODContract-ContractScheduleFullDescription" type="xs:string" />
+                            <xs:element name="PayType" type="xs:string" />
+                            <xs:element name="PayClass" type="xs:string" />
+                            <xs:element name="BaseSalary" type="xs:decimal" />
+                            <xs:element name="DailyRate" />
+                            <xs:element name="ODContract-ProductionPercentage" type="xs:string" />
+                            <xs:element name="ODContract-ProductionThreshold" type="xs:string" />
+                            <xs:element name="ODContract-ProductionPaymentFerquency" type="xs:string" />
+                            <xs:element name="ODContract-TuitionReimbursementAnnual" type="xs:string" />
+                            <xs:element name="ODContract-CarTravelAllowanceMonthly" type="xs:string" />
+                            <xs:element name="ODContract-SignOnBonus" type="xs:string" />
+                            <xs:element name="ODContract-BenefitEligible" type="xs:string" />
+                            <xs:element name="ODContract-CEReimbursement" type="xs:string" />
+                            <xs:element name="ODContract-AOADues" type="xs:string" />
+                            <xs:element name="ODContract-StateDues" type="xs:string" />
+                            <xs:element name="ODContract-LicensureDues" type="xs:string" />
+                            <xs:element name="ODContract-PTODays" type="xs:string" />
+                            <xs:element name="ODContract-PaidCEDays" type="xs:string" />
+                            <xs:element name="ODContract-PaidHolidays" type="xs:string" />
+                            <xs:element name="ODContract-PLIProvision" type="xs:string" />
+                            <xs:element name="ODContract-PCHolder" />
+                            <xs:element name="ODContract-PCHolderCompanyName" />
+                            <xs:element name="ODContract-PCHolderOwnershipShare" />
+                            <xs:element name="ODContract-SeesPatients" />
+                            <xs:element name="ODContract-LeadOD" />
+                            <xs:element name="ODContract-RegionalOD" />
+                            <xs:element name="ODContract-NPI" type="xs:unsignedInt" />
+                            <xs:element name="PayGroupName" type="xs:string" />
+                            <xs:element name="EmploymentStatusName" type="xs:string" />
+                            <xs:element name="ODContract-AnnualBonusYR1" />
+                            <xs:element name="ODContract-AnnualBonusYR2" />
+                            <xs:element name="ODContract-AnnualBonusYR3" />
+                            <xs:element name="ODContract-MileageReimbursement" />
+                            <xs:element name="ODContract-RetentionBonus" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

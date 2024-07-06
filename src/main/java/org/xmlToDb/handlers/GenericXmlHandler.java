@@ -2,7 +2,8 @@ package org.xmlToDb.handlers;
 
 import org.xmlToDb.models.ParsedData;
 import org.xmlToDb.parsers.ParserFactory;
-import org.xmlToDb.parsers.XmlParser;
+import org.xmlToDb.strategies.XmlHandler;
+import org.xmlToDb.strategies.XmlParser;
 import org.xmlToDb.utils.DatabaseConnectionManager;
 import org.xmlToDb.utils.SchemaValidator;
 

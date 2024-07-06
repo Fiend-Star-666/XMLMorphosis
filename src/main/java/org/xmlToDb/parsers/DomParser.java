@@ -2,6 +2,7 @@ package org.xmlToDb.parsers;
 
 import org.w3c.dom.Document;
 import org.xmlToDb.models.ParsedData;
+import org.xmlToDb.strategies.XmlParser;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
