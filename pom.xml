@@ -32,6 +32,10 @@
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <azure.functions.maven.plugin.version>1.24.0</azure.functions.maven.plugin.version>
         <maven.clean.plugin.version>3.1.0</maven.clean.plugin.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
+        <maven.resources.plugin.version>3.3.1</maven.resources.plugin.version>
         <jacoco.version>0.8.12</jacoco.version>
         <rewrite.maven.plugin.version>5.21.0</rewrite.maven.plugin.version>
         <rewrite.logging.frameworks.version>2.4.2</rewrite.logging.frameworks.version>
@@ -201,6 +205,23 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <release>${java.version}</release>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <compilerArgs>
+                        <arg>-Xlint:unchecked</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven.resources.plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>com.microsoft.azure</groupId>

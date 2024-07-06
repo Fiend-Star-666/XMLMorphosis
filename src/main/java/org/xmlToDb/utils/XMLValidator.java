@@ -2,6 +2,7 @@ package org.xmlToDb.utils;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -26,6 +27,18 @@ public class XMLValidator {
     public static <T> T parseXml(String xmlContent, Class<T> clazz) throws Exception {
         JAXBContext jaxbContext = JAXBContext.newInstance(clazz);
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-        return (T) unmarshaller.unmarshal(new StringReader(xmlContent));
+        StringReader reader = new StringReader(xmlContent);
+        Object result = unmarshaller.unmarshal(reader);
+
+        if (clazz.isInstance(result)) {
+            return clazz.cast(result);
+        } else if (result instanceof JAXBElement<?> jaxbElement) {
+            Object value = jaxbElement.getValue();
+            if (clazz.isInstance(value)) {
+                return clazz.cast(value);
+            }
+        }
+
+        throw new ClassCastException("Unmarshalled object is not of type " + clazz.getName());
     }
 }
