@@ -3,9 +3,8 @@ package org.xmlToDb.storage;
 import java.util.List;
 
 public interface StorageService {
-    void storeFile(String filePath);
-
-    String readFileContent(String xmlFilePath);
-
-    List<String> listFiles(String xml);
+    List<String> listFiles(String fileExtension);
+    String readFileContent(String filePath);
+    void writeFile(String filePath, String content);
+    void deleteFile(String filePath);
 }

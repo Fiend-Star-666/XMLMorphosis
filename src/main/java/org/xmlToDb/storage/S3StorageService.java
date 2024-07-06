@@ -1,34 +1,48 @@
 package org.xmlToDb.storage;
 
 import com.amazonaws.services.s3.AmazonS3;
-import org.xmlToDb.utils.AwsClientHelper;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
+import org.xmlToDb.config.ConfigLoader;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class S3StorageService implements StorageService {
-
-    private final AmazonS3 s3;
+    private final AmazonS3 s3Client;
     private final String bucketName;
+    ConfigLoader config = ConfigLoader.getInstance();
 
     public S3StorageService() {
-        // Initialize AWS S3 from environment variables
-        this.s3 = AwsClientHelper.getS3Client();
-        this.bucketName = System.getenv("AWS_S3_BUCKET_NAME");
+        this.s3Client = AmazonS3ClientBuilder.defaultClient();
+        this.bucketName = config.getProperty("AWS_S3_BUCKET_NAME");
     }
 
     @Override
-    public void storeFile(String filePath) {
-        // Logic to store file in AWS S3
+    public List<String> listFiles(String fileExtension) {
+        return s3Client.listObjects(bucketName).getObjectSummaries().stream()
+                .map(S3ObjectSummary::getKey)
+                .filter(key -> key.endsWith(fileExtension))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public String readFileContent(String xmlFilePath) {
-        return null;
+    public String readFileContent(String filePath) {
+        S3Object object = s3Client.getObject(bucketName, filePath);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(object.getObjectContent()));
+        return reader.lines().collect(Collectors.joining("\n"));
     }
 
     @Override
-    public List<String> listFiles(String xml) {
-        return null;
+    public void writeFile(String filePath, String content) {
+        s3Client.putObject(bucketName, filePath, content);
+    }
+
+    @Override
+    public void deleteFile(String filePath) {
+        s3Client.deleteObject(bucketName, filePath);
     }
 }
-

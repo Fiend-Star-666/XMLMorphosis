@@ -21,12 +21,15 @@ public final class SftpClient {
     private ChannelSftp channel;
     private Session session;
 
+    ConfigLoader config = ConfigLoader.getInstance();
+
+
     public SftpClient() {
         log.info("Initializing SFTP client...");
-        this.host = ConfigLoader.getProperty("sftp.host");
-        this.port = Integer.parseInt(ConfigLoader.getProperty("sftp.port"));
-        this.username = ConfigLoader.getProperty("sftp.username");
-        this.password = ConfigLoader.getProperty("sftp.password");
+        this.host = config.getProperty("sftp.host");
+        this.port = Integer.parseInt(config.getProperty("sftp.port"));
+        this.username = config.getProperty("sftp.username");
+        this.password = config.getProperty("sftp.password");
         this.jsch = new JSch();
     }
 

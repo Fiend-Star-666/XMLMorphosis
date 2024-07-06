@@ -9,31 +9,62 @@ import java.util.Properties;
 /**
  * This class is responsible for loading the application properties
  * from the application.properties file and then overriding them with the System environment variables.
- * This helps in maintaining the secrecy.
+ * This helps in maintaining the secrecy. It is implemented as a thread-safe singleton.
  */
 @Slf4j
 public class ConfigLoader {
     private static final String PROPERTIES_FILE = "/application.properties";
-    private static Properties properties = new Properties();
+    private final Properties properties;
 
-    static {
+    private static class SingletonHolder {
+        private static final ConfigLoader INSTANCE = new ConfigLoader();
+    }
+
+    private ConfigLoader() {
+        properties = new Properties();
+        loadProperties();
+    }
+
+    public static ConfigLoader getInstance() {
+        return SingletonHolder.INSTANCE;
+    }
+
+    private void loadProperties() {
         try (InputStream input = ConfigLoader.class.getResourceAsStream(PROPERTIES_FILE)) {
+            if (input == null) {
+                throw new IOException("Unable to find " + PROPERTIES_FILE);
+            }
             properties.load(input);
         } catch (IOException ex) {
+            log.error("Error loading properties file: {}", ex.getMessage());
             throw new RuntimeException("Error loading properties file.", ex);
         }
     }
 
-    private ConfigLoader() {
-    }
-
-    public static String getProperty(String key) {
+    public String getProperty(String key) {
         String property = properties.getProperty(key);
-        return System.getenv(property);
+        if (property == null) {
+            log.warn("Property '{}' not found in properties file", key);
+            return null;
+        }
+        String envValue = System.getenv(property);
+        if (envValue != null) {
+            return envValue;
+        }
+        log.info("Using property '{}' from properties file", key);
+        return property;
     }
 
-    public static int getIntProperty(String key) {
+    public int getIntProperty(String key) {
         String property = getProperty(key);
-        return Integer.parseInt(System.getenv(property));
+        if (property == null) {
+            throw new IllegalArgumentException("Property '" + key + "' not found");
+        }
+        try {
+            return Integer.parseInt(property);
+        } catch (NumberFormatException e) {
+            log.error("Unable to parse property '{}' as integer: {}", key, property);
+            throw new IllegalArgumentException("Property '" + key + "' is not a valid integer", e);
+        }
     }
 }
