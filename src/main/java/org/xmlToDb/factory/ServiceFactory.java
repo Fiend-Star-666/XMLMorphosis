@@ -11,26 +11,20 @@ import org.xmlToDb.strategy.DatabaseStrategyFactory;
 
 public class ServiceFactory {
 
-    public static QueueService getQueueService(String cloudProvider) {
-        switch (cloudProvider.toLowerCase()) {
-            case "azure":
-                return new AzureQueueService();
-            case "aws":
-                return new SQSService();
-            default:
-                throw new IllegalArgumentException("Unknown cloud provider: " + cloudProvider);
-        }
+    public static QueueService getQueueService(String cloudProvider) throws Exception {
+        return switch (cloudProvider.toLowerCase()) {
+            case "azure" -> new AzureQueueService();
+            case "aws" -> new SQSService();
+            default -> throw new IllegalArgumentException("Unknown cloud provider: " + cloudProvider);
+        };
     }
 
-    public static StorageService getStorageService(String cloudProvider) {
-        switch (cloudProvider.toLowerCase()) {
-            case "azure":
-                return new AzureBlobStorageService();
-            case "aws":
-                return new S3StorageService();
-            default:
-                throw new IllegalArgumentException("Unknown cloud provider: " + cloudProvider);
-        }
+    public static StorageService getStorageService(String cloudProvider) throws Exception {
+        return switch (cloudProvider.toLowerCase()) {
+            case "azure" -> new AzureBlobStorageService();
+            case "aws" -> new S3StorageService();
+            default -> throw new IllegalArgumentException("Unknown cloud provider: " + cloudProvider);
+        };
     }
 
     public static DatabaseStrategy getDatabaseStrategy(String dbType, String url, String username, String password) {

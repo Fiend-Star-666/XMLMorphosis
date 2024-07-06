@@ -3,6 +3,8 @@ package org.xmlToDb.storage;
 import com.amazonaws.services.s3.AmazonS3;
 import org.xmlToDb.utils.AwsClientHelper;
 
+import java.util.List;
+
 public class S3StorageService implements StorageService {
 
     private final AmazonS3 s3;
@@ -17,6 +19,16 @@ public class S3StorageService implements StorageService {
     @Override
     public void storeFile(String filePath) {
         // Logic to store file in AWS S3
+    }
+
+    @Override
+    public String readFileContent(String xmlFilePath) {
+        return null;
+    }
+
+    @Override
+    public List<String> listFiles(String xml) {
+        return null;
     }
 }
 
