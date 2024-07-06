@@ -30,5 +30,7 @@ public class ServiceFactory {
     public static DatabaseStrategy getDatabaseStrategy(String dbType, String url, String username, String password) {
         return DatabaseStrategyFactory.getDatabaseStrategy(dbType, url, username, password);
     }
-}
 
+    private ServiceFactory() {
+    }
+}

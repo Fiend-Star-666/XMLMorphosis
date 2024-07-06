@@ -1,27 +1,51 @@
 package org.xmlToDb.parsers;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xmlToDb.models.ParsedData;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.validation.Schema;
 import java.io.ByteArrayInputStream;
 
 public class DomParser implements XmlParser {
     @Override
-    public ParsedData parse(String xmlContent, String schemaPath) {
+    public ParsedData parse(String xmlContent, Schema schema) throws Exception {
         ParsedData data = new ParsedData();
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(new ByteArrayInputStream(xmlContent.getBytes()));
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setSchema(schema);
+        factory.setNamespaceAware(true);
+        factory.setValidating(true);
 
-            // Populate data from XML
-            // Example:
-            // data.setValue(document.getElementsByTagName("someTag").item(0).getTextContent());
-        } catch (Exception e) {
-            e.printStackTrace();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(new ByteArrayInputStream(xmlContent.getBytes()));
+
+        Element root = document.getDocumentElement();
+        data.setRootElementName(root.getTagName());
+
+        // Parse specific elements
+        parseElement(root, "id", data);
+        parseElement(root, "name", data);
+        parseElement(root, "description", data);
+
+        // Parse nested elements
+        NodeList nestedList = root.getElementsByTagName("nested");
+        for (int i = 0; i < nestedList.getLength(); i++) {
+            Element nested = (Element) nestedList.item(i);
+            String nestedValue = nested.getTextContent();
+            data.addNestedValue(nestedValue);
         }
+
         return data;
+    }
+
+    private void parseElement(Element root, String tagName, ParsedData data) {
+        NodeList nodeList = root.getElementsByTagName(tagName);
+        if (nodeList.getLength() > 0) {
+            String value = nodeList.item(0).getTextContent();
+            data.addField(tagName, value);
+        }
     }
 }

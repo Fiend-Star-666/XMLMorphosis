@@ -2,6 +2,7 @@ package org.xmlToDb.strategy;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.xmlToDb.dbModels.DataRetrievalLog;
 
 public class SqlServerStrategy implements DatabaseStrategy {
     private final JdbcTemplate jdbcTemplate;
@@ -19,5 +20,9 @@ public class SqlServerStrategy implements DatabaseStrategy {
     public JdbcTemplate getJdbcTemplate() {
         return jdbcTemplate;
     }
-}
 
+    @Override
+    public void save(DataRetrievalLog dataRetrievalLog) {
+
+    }
+}
