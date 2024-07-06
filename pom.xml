@@ -16,6 +16,22 @@
         <azure.functions.maven.plugin.version>1.24.0</azure.functions.maven.plugin.version>
         <azure.functions.java.library.version>3.1.0</azure.functions.java.library.version>
         <functionAppName>xmlToDb-1718905849582</functionAppName>
+        <azure.functions.java.library.version>3.1.0</azure.functions.java.library.version>
+        <lombok.version>1.18.34</lombok.version>
+        <slf4j.version>2.1.0-alpha1</slf4j.version>
+        <logback.version>1.5.6</logback.version>
+        <junit.jupiter.version>5.10.2</junit.jupiter.version>
+        <mockito.version>5.11.0</mockito.version>
+        <jsch.version>0.2.18</jsch.version>
+        <azure.storage.version>8.6.6</azure.storage.version>
+        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+        <azure.functions.maven.plugin.version>1.24.0</azure.functions.maven.plugin.version>
+        <maven.clean.plugin.version>3.1.0</maven.clean.plugin.version>
+        <jacoco.version>0.8.12</jacoco.version>
+        <rewrite.maven.plugin.version>5.21.0</rewrite.maven.plugin.version>
+        <rewrite.logging.frameworks.version>2.4.2</rewrite.logging.frameworks.version>
+        <rewrite.migrate.java.version>2.7.1</rewrite.migrate.java.version>
+        <rewrite.static.analysis.version>1.2.2</rewrite.static.analysis.version>
     </properties>
 
     <dependencies>
@@ -29,44 +45,34 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-            <version>1.18.34</version>
+            <version>${lombok.version}</version>
         </dependency>
 
         <!-- Logging -->
-        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>2.1.0-alpha1</version>
+            <version>${slf4j.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.5.6</version>
+            <version>${logback.version}</version>
         </dependency>
 
         <!-- JUnit 5 -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.10.2</version>
+            <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.10.2</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Test -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.10.2</version>
+            <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -74,19 +80,56 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.11.0</version>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.github.mwiede</groupId>
             <artifactId>jsch</artifactId>
-            <version>0.2.18</version>
+            <version>${jsch.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.microsoft.azure</groupId>
             <artifactId>azure-storage</artifactId>
-            <version>8.6.6</version>
+            <version>${azure.storage.version}</version>
+        </dependency>
+
+        <!-- Jackson for XML Parsing -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>2.17.2</version>
+        </dependency>
+
+        <!-- AWS SDK for S3 and SQS -->
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
+            <version>2.26.16</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>sqs</artifactId>
+            <version>2.26.16</version>
+        </dependency>
+
+        <!-- Spring JDBC for Database Access -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>6.1.10</version>
+        </dependency>
+
+
+        <!-- Microsoft SQL Server JDBC Driver -->
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>12.6.3.jre11</version>
         </dependency>
 
     </dependencies>
@@ -96,10 +139,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-        <configuration>
-          <encoding>${project.build.sourceEncoding}</encoding>
-          <release>${java.version}</release>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <release>${java.version}</release>
                 </configuration>
             </plugin>
             <plugin>
@@ -151,7 +194,7 @@
             <!--Remove obj folder generated by .NET SDK in maven clean-->
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>${maven.clean.plugin.version}</version>
                 <configuration>
                     <filesets>
                         <fileset>
@@ -163,7 +206,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.12</version>
+                <version>${jacoco.version}</version>
                 <configuration>
                     <excludes>
                         <!--<exclude>**/utils/**/*</exclude>-->
@@ -207,7 +250,7 @@
             <plugin>
                 <groupId>org.openrewrite.maven</groupId>
                 <artifactId>rewrite-maven-plugin</artifactId>
-                <version>5.21.0</version>
+                <version>${rewrite.maven.plugin.version}</version>
                 <configuration>
                     <activeRecipes>
                         <recipe>org.openrewrite.java.migrate.UpgradeToJava21</recipe>
@@ -220,17 +263,17 @@
                     <dependency>
                         <groupId>org.openrewrite.recipe</groupId>
                         <artifactId>rewrite-logging-frameworks</artifactId>
-                        <version>2.4.2</version>
+                        <version>${rewrite.logging.frameworks.version}</version>
                     </dependency>
                     <dependency>
                         <groupId>org.openrewrite.recipe</groupId>
                         <artifactId>rewrite-migrate-java</artifactId>
-                        <version>2.7.1</version>
+                        <version>${rewrite.migrate.java.version}</version>
                     </dependency>
                     <dependency>
                         <groupId>org.openrewrite.recipe</groupId>
                         <artifactId>rewrite-static-analysis</artifactId>
-                        <version>1.2.2</version>
+                        <version>${rewrite.static.analysis.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>

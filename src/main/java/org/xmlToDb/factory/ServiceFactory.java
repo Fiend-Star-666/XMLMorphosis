@@ -1,13 +1,13 @@
 package org.xmlToDb.factory;
 
-import org.xmlToDb.queue.QueueService;
-import org.xmlToDb.storage.StorageService;
-import org.xmlToDb.strategy.DatabaseStrategy;
-import org.xmlToDb.strategy.DatabaseStrategyFactory;
 import org.xmlToDb.queue.AzureQueueService;
+import org.xmlToDb.queue.QueueService;
 import org.xmlToDb.queue.SQSService;
 import org.xmlToDb.storage.AzureBlobStorageService;
 import org.xmlToDb.storage.S3StorageService;
+import org.xmlToDb.storage.StorageService;
+import org.xmlToDb.strategy.DatabaseStrategy;
+import org.xmlToDb.strategy.DatabaseStrategyFactory;
 
 public class ServiceFactory {
 

@@ -24,6 +24,9 @@ public class ConfigLoader {
         }
     }
 
+    private ConfigLoader() {
+    }
+
     public static String getProperty(String key) {
         String property = properties.getProperty(key);
         return System.getenv(property);
@@ -32,8 +35,5 @@ public class ConfigLoader {
     public static int getIntProperty(String key) {
         String property = getProperty(key);
         return Integer.parseInt(System.getenv(property));
-    }
-
-    private ConfigLoader() {
     }
 }

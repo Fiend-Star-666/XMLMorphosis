@@ -149,6 +149,7 @@ public final class SftpClient {
 
     /**
      * Rename a file on remote
+     *
      * @param oldPath
      * @param newPath
      * @throws SftpException
@@ -163,6 +164,7 @@ public final class SftpClient {
 
     /**
      * Create a directory on remote
+     *
      * @param remoteDir
      * @throws SftpException
      */
@@ -176,6 +178,7 @@ public final class SftpClient {
 
     /**
      * Delete a directory on remote
+     *
      * @param remoteDir
      * @throws SftpException
      */
@@ -189,6 +192,7 @@ public final class SftpClient {
 
     /**
      * Change permissions of a file or directory on remote
+     *
      * @param permissions
      * @param remotePath
      * @throws SftpException
@@ -203,6 +207,7 @@ public final class SftpClient {
 
     /**
      * Check if a file or directory exists on remote
+     *
      * @param remotePath
      * @return
      * @throws SftpException
@@ -225,6 +230,7 @@ public final class SftpClient {
 
     /**
      * Get the size of a file on remote
+     *
      * @param remotePath
      * @return
      * @throws SftpException
@@ -239,6 +245,7 @@ public final class SftpClient {
 
     /**
      * Get the modification time of a file on remote
+     *
      * @param remotePath
      * @return
      * @throws SftpException
@@ -253,6 +260,7 @@ public final class SftpClient {
 
     /**
      * Get the permissions of a file on remote
+     *
      * @param remotePath
      * @return
      * @throws SftpException
@@ -267,6 +275,7 @@ public final class SftpClient {
 
     /**
      * Set the modification time of a file on remote
+     *
      * @param remotePath
      * @param mtime
      * @throws SftpException
@@ -283,6 +292,7 @@ public final class SftpClient {
 
     /**
      * Copy a file or directory on remote
+     *
      * @param srcPath
      * @param destPath
      * @throws SftpException
@@ -308,6 +318,7 @@ public final class SftpClient {
 
     /**
      * Get the type of a file on remote
+     *
      * @param remotePath
      * @return
      * @throws SftpException
@@ -323,6 +334,7 @@ public final class SftpClient {
 
     /**
      * Get the owner and group of a file on remote
+     *
      * @param remotePath
      * @return
      * @throws SftpException
@@ -338,6 +350,7 @@ public final class SftpClient {
 
     /**
      * Get a list of files in a directory on remote modified after a certain time
+     *
      * @param remoteDir
      * @param time
      * @return
@@ -361,6 +374,7 @@ public final class SftpClient {
 
     /**
      * Move a file on remote
+     *
      * @param srcPath
      * @param destPath
      * @throws SftpException

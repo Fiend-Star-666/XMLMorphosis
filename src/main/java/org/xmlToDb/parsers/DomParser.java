@@ -5,7 +5,6 @@ import org.xmlToDb.models.ParsedData;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import java.io.ByteArrayInputStream;
 
 public class DomParser implements XmlParser {

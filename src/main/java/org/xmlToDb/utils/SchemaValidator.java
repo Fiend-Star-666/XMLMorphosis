@@ -9,6 +9,9 @@ import java.io.File;
 import java.io.StringReader;
 
 public class SchemaValidator {
+    private SchemaValidator() {
+    }
+
     public static boolean validateXMLSchema(String schemaPath, String xmlContent) {
         try {
             SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -20,8 +23,5 @@ public class SchemaValidator {
             e.printStackTrace();
             return false;
         }
-    }
-
-    private SchemaValidator() {
     }
 }
