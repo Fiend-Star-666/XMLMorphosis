@@ -1,8 +1,8 @@
-package org.xmlToDb.strategy;
+package org.xmlToDb.database.strategy;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.xmlToDb.dbModels.DataRetrievalLog;
+import org.xmlToDb.core.dbModels.DataRetrievalLog;
 
 public class SqlServerStrategy implements DatabaseStrategy {
     private final JdbcTemplate jdbcTemplate;

@@ -6,8 +6,8 @@ import org.xmlToDb.queue.SQSService;
 import org.xmlToDb.storage.AzureBlobStorageService;
 import org.xmlToDb.storage.S3StorageService;
 import org.xmlToDb.storage.StorageService;
-import org.xmlToDb.strategy.DatabaseStrategy;
-import org.xmlToDb.strategy.DatabaseStrategyFactory;
+import org.xmlToDb.database.strategy.DatabaseStrategy;
+import org.xmlToDb.database.strategy.DatabaseStrategyFactory;
 
 public class ServiceFactory {
 

@@ -1,4 +1,4 @@
-package org.xmlToDb.strategy;
+package org.xmlToDb.database.strategy;
 
 public class DatabaseStrategyFactory {
     public static DatabaseStrategy getDatabaseStrategy(String dbType, String url, String username, String password) {

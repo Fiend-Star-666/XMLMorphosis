@@ -1,4 +1,4 @@
-package org.xmlToDb.models;
+package org.xmlToDb.core.models;
 
 import java.util.ArrayList;
 import java.util.HashMap;

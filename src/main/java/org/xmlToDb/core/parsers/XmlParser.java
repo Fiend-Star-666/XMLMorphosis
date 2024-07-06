@@ -1,6 +1,6 @@
-package org.xmlToDb.parsers;
+package org.xmlToDb.core.parsers;
 
-import org.xmlToDb.models.ParsedData;
+import org.xmlToDb.core.models.ParsedData;
 
 import javax.xml.validation.Schema;
 

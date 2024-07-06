@@ -1,11 +1,11 @@
-package org.xmlToDb.handlers;
+package org.xmlToDb.core.handlers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xmlToDb.models.ParsedData;
-import org.xmlToDb.parsers.ParserFactory;
-import org.xmlToDb.parsers.XmlParser;
-import org.xmlToDb.utils.DatabaseConnectionManager;
+import org.xmlToDb.core.models.ParsedData;
+import org.xmlToDb.core.parsers.ParserFactory;
+import org.xmlToDb.core.parsers.XmlParser;
+import org.xmlToDb.database.DatabaseConnectionManager;
 import org.xmlToDb.utils.SchemaValidator;
 
 import javax.xml.validation.Schema;

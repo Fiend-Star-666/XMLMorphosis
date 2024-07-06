@@ -1,6 +1,6 @@
-package org.xmlToDb.utils;
+package org.xmlToDb.database;
 
-import org.xmlToDb.models.ParsedData;
+import org.xmlToDb.core.models.ParsedData;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

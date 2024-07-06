@@ -1,4 +1,4 @@
-package org.xmlToDb.parsers;
+package org.xmlToDb.core.parsers;
 
 import javax.xml.XMLConstants;
 import javax.xml.validation.Schema;

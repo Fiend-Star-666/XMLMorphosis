@@ -1,4 +1,4 @@
-package org.xmlToDb.processors;
+package org.xmlToDb.core.processors;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

@@ -1,4 +1,4 @@
-package org.xmlToDb.processors;
+package org.xmlToDb.core.processors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

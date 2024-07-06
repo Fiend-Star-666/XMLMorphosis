@@ -1,8 +1,9 @@
-package org.xmlToDb.utils;
+package org.xmlToDb.functions;
 
 import com.microsoft.azure.functions.ExecutionContext;
 import com.microsoft.azure.functions.HttpRequestMessage;
 import com.microsoft.azure.functions.HttpResponseMessage;
+import org.xmlToDb.utils.GlobalExceptionHandler;
 
 import java.util.Optional;
 import java.util.function.BiFunction;

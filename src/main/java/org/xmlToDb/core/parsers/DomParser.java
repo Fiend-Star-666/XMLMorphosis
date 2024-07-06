@@ -1,9 +1,9 @@
-package org.xmlToDb.parsers;
+package org.xmlToDb.core.parsers;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xmlToDb.models.ParsedData;
+import org.xmlToDb.core.models.ParsedData;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

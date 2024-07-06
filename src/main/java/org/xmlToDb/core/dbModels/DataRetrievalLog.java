@@ -1,4 +1,4 @@
-package org.xmlToDb.dbModels;
+package org.xmlToDb.core.dbModels;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

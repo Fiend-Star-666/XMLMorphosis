@@ -1,9 +1,9 @@
-package org.xmlToDb.parsers;
+package org.xmlToDb.core.parsers;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xmlToDb.models.ParsedData;
+import org.xmlToDb.core.models.ParsedData;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;

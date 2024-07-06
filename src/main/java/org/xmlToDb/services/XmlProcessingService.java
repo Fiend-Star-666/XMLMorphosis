@@ -1,6 +1,6 @@
 package org.xmlToDb.services;
 
-import org.xmlToDb.handlers.GenericXmlHandler;
+import org.xmlToDb.core.handlers.GenericXmlHandler;
 import org.xmlToDb.utils.SchemaValidator;
 
 import java.io.File;

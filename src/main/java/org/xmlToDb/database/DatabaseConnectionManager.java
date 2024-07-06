@@ -1,4 +1,4 @@
-package org.xmlToDb.utils;
+package org.xmlToDb.database;
 
 import java.io.IOException;
 import java.io.InputStream;

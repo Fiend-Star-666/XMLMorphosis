@@ -38,7 +38,7 @@ local.settings.json
 bin/
 obj/
 !/src/main/resources/data/data.xml
-!/src/main/java/org/xmlToDb/models/dbObjects/DataRetrievalLog.java
+!/src/main/java/org/xmlToDb/core/models/dbObjects/DataRetrievalLog.java
 /.azure/.gitignore
 /.azure/default/connections.xml
 /gradle/wrapper/gradle-wrapper.properties

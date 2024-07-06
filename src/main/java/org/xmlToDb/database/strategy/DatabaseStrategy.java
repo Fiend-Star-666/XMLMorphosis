@@ -1,7 +1,7 @@
-package org.xmlToDb.strategy;
+package org.xmlToDb.database.strategy;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.xmlToDb.dbModels.DataRetrievalLog;
+import org.xmlToDb.core.dbModels.DataRetrievalLog;
 
 public interface DatabaseStrategy {
     JdbcTemplate getJdbcTemplate();
