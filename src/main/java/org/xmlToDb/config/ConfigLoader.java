@@ -16,10 +16,6 @@ public class ConfigLoader {
     private static final String PROPERTIES_FILE = "/application.properties";
     private final Properties properties;
 
-    private static class SingletonHolder {
-        private static final ConfigLoader INSTANCE = new ConfigLoader();
-    }
-
     private ConfigLoader() {
         properties = new Properties();
         loadProperties();
@@ -66,5 +62,9 @@ public class ConfigLoader {
             log.error("Unable to parse property '{}' as integer: {}", key, property);
             throw new IllegalArgumentException("Property '" + key + "' is not a valid integer", e);
         }
+    }
+
+    private static class SingletonHolder {
+        private static final ConfigLoader INSTANCE = new ConfigLoader();
     }
 }

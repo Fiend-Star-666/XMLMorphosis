@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 public class AzureBlobStorageService implements StorageService {
     private final BlobContainerClient containerClient;
     ConfigLoader config = ConfigLoader.getInstance();
+
     public AzureBlobStorageService() {
         String connectionString = config.getProperty("AZURE_STORAGE_CONNECTION_STRING");
         String containerName = config.getProperty("AZURE_STORAGE_CONTAINER_NAME");

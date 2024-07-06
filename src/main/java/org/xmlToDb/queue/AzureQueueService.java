@@ -2,10 +2,10 @@ package org.xmlToDb.queue;
 
 import com.azure.storage.queue.QueueClient;
 import com.azure.storage.queue.models.SendMessageResult;
-import org.xmlToDb.config.ConfigLoader;
-import org.xmlToDb.utils.AzureQueueHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xmlToDb.config.ConfigLoader;
+import org.xmlToDb.utils.AzureQueueHelper;
 
 public class AzureQueueService implements QueueService {
 

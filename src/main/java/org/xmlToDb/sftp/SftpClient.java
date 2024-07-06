@@ -18,10 +18,9 @@ public final class SftpClient {
     private final String username;
     private final String password;
     private final JSch jsch;
+    ConfigLoader config = ConfigLoader.getInstance();
     private ChannelSftp channel;
     private Session session;
-
-    ConfigLoader config = ConfigLoader.getInstance();
 
 
     public SftpClient() {

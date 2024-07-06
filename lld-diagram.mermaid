@@ -11,52 +11,52 @@ classDiagram
         + handleException(request, e)
     }
     class ConfigLoader {
-        - PROPERTIES_FILE : String
-        - properties : Properties
-        + getProperty(key) : String
-        + getIntProperty(key) : int
+        - PROPERTIES_FILE: String
+        - properties: Properties
+        + getProperty(key): String
+        + getIntProperty(key): int
     }
     class StorageServiceFactory {
-        + getStorageService(storageType) : StorageService
+        + getStorageService(storageType): StorageService
     }
     class StorageService {
         <<interface>>
-        + listFiles(fileExtension) : List~String~
-        + readFileContent(filePath) : String
+        + listFiles(fileExtension): List~String~
+        + readFileContent(filePath): String
         + writeFile(filePath, content)
         + deleteFile(filePath)
     }
     class AzureBlobStorageService {
-        - containerClient : BlobContainerClient
+        - containerClient: BlobContainerClient
     }
     class S3StorageService {
-        - s3Client : AmazonS3
-        - bucketName : String
+        - s3Client: AmazonS3
+        - bucketName: String
     }
     class XMLValidator {
-        + validateXMLSchema(xsdPath, xmlPath) : boolean
-        + parseXml(xmlContent, clazz) : T
+        + validateXMLSchema(xsdPath, xmlPath): boolean
+        + parseXml(xmlContent, clazz): T
     }
     class XMLProcessorFactory {
-        - processors : Map~String, XMLProcessor~
-        + getProcessor(xmlPath, xsdPath) : XMLProcessor
+        - processors: Map~String, XMLProcessor~
+        + getProcessor(xmlPath, xsdPath): XMLProcessor
     }
     class XMLProcessor {
         <<interface>>
-        + process(document) : Object
+        + process(document): Object
     }
     class DatabaseConnectionFactory {
-        - configurations : Map~String, DatabaseConfiguration~
-        + getConnection(xmlPath, xsdPath) : DatabaseConnection
+        - configurations: Map~String, DatabaseConfiguration~
+        + getConnection(xmlPath, xsdPath): DatabaseConnection
     }
     class DatabaseConfiguration {
-        - url : String
-        - username : String
-        - password : String
-        - driverClassName : String
+        - url: String
+        - username: String
+        - password: String
+        - driverClassName: String
     }
     class DatabaseConnection {
-        - connection : Connection
+        - connection: Connection
         + save(data, tableName)
         + close()
     }

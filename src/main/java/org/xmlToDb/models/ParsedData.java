@@ -15,12 +15,12 @@ public class ParsedData {
         this.nestedValues = new ArrayList<>();
     }
 
-    public void setRootElementName(String rootElementName) {
-        this.rootElementName = rootElementName;
-    }
-
     public String getRootElementName() {
         return rootElementName;
+    }
+
+    public void setRootElementName(String rootElementName) {
+        this.rootElementName = rootElementName;
     }
 
     public void addField(String key, String value) {

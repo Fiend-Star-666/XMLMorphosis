@@ -1,8 +1,8 @@
 package org.xmlToDb.parsers;
 
+import javax.xml.XMLConstants;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
-import javax.xml.XMLConstants;
 import java.io.File;
 
 public class ParserFactory {

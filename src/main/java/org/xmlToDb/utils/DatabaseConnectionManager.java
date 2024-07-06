@@ -16,6 +16,10 @@ public class DatabaseConnectionManager {
         loadDatabaseProperties();
     }
 
+    public static DatabaseConnectionManager getInstance() {
+        return INSTANCE;
+    }
+
     private void loadDatabaseProperties() {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("database.properties")) {
             if (input == null) {
@@ -25,10 +29,6 @@ public class DatabaseConnectionManager {
         } catch (IOException e) {
             throw new RuntimeException("Failed to load database properties", e);
         }
-    }
-
-    public static DatabaseConnectionManager getInstance() {
-        return INSTANCE;
     }
 
     public DatabaseConnection getConnection(String schema) throws SQLException {

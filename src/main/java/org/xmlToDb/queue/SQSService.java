@@ -1,11 +1,11 @@
 package org.xmlToDb.queue;
 
 import lombok.Data;
-import software.amazon.awssdk.services.sqs.SqsClient;
-import software.amazon.awssdk.services.sqs.model.SendMessageRequest;
-import org.xmlToDb.utils.AwsClientHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xmlToDb.utils.AwsClientHelper;
+import software.amazon.awssdk.services.sqs.SqsClient;
+import software.amazon.awssdk.services.sqs.model.SendMessageRequest;
 
 @Data
 public class SQSService implements QueueService {

@@ -1,7 +1,5 @@
 package org.xmlToDb.storage;
 
-import org.xmlToDb.config.ConfigLoader;
-
 public class StorageServiceFactory {
     public static StorageService getStorageService(String storageType) {
         switch (storageType.toLowerCase()) {
