@@ -1,4 +1,4 @@
-package org.xml_to_db;
+package org.xml_to_db.sftp;
 
 import java.text.StringCharacterIterator;
 

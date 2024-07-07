@@ -1,4 +1,4 @@
-package org.xml_to_db;
+package org.xml_to_db.sftp;
 
 import com.jcraft.jsch.*;
 import lombok.extern.slf4j.Slf4j;
