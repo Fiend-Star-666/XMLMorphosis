@@ -1,17 +1,23 @@
 package org.xml_to_db.storage;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class StorageServiceFactory {
-    public static StorageService getStorageService(String storageType) {
-        switch (storageType.toLowerCase()) {
-            case "azure":
-                return new AzureBlobStorageService();
-            case "aws":
-                return new S3StorageService();
-            default:
-                throw new IllegalArgumentException("Unsupported storage type: " + storageType);
-        }
-    }
 
     private StorageServiceFactory() {
+        // Private constructor to prevent instantiation
+    }
+
+    public static StorageService getStorageService(String storageType) {
+        log.info("Creating StorageService for type: {}", storageType);
+        return switch (storageType.toLowerCase()) {
+            case "azure" -> new AzureBlobStorageService();
+            case "aws" -> new S3StorageService();
+            default -> {
+                log.error("Unsupported storage type: {}", storageType);
+                throw new IllegalArgumentException("Unsupported storage type: " + storageType);
+            }
+        };
     }
 }

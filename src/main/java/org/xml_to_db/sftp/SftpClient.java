@@ -253,7 +253,7 @@ public final class SftpClient {
      * @throws SftpException
      */
     public long getFileModificationTime(String remotePath) throws SftpException {
-        System.out.printf("Getting modification time of [%s]...%n", remotePath);
+        log.info("Getting modification time of [%s]...%n", remotePath);
         if (channel == null) {
             throw new IllegalArgumentException("Connection is not available");
         }
@@ -268,7 +268,7 @@ public final class SftpClient {
      * @throws SftpException
      */
     public String getFilePermissions(String remotePath) throws SftpException {
-        System.out.printf("Getting permissions of [%s]...%n", remotePath);
+        log.info("Getting permissions of [%s]...%n", remotePath);
         if (channel == null) {
             throw new IllegalArgumentException("Connection is not available");
         }
@@ -283,7 +283,7 @@ public final class SftpClient {
      * @throws SftpException
      */
     public void setFileModificationTime(String remotePath, int mtime) throws SftpException {
-        System.out.printf("Setting modification time of [%s] to [%d]...%n", remotePath, mtime);
+        log.info("Setting modification time of [%s] to [%d]...%n", remotePath, mtime);
         if (channel == null) {
             throw new IllegalArgumentException("Connection is not available");
         }
@@ -301,7 +301,7 @@ public final class SftpClient {
      * @throws IOException
      */
     public void copyFileOrDirectory(String srcPath, String destPath) throws SftpException, IOException {
-        System.out.printf("Copying [%s] to [%s]...%n", srcPath, destPath);
+        log.info("Copying [%s] to [%s]...%n", srcPath, destPath);
         if (channel == null) {
             throw new IllegalArgumentException("Connection is not available");
         }
@@ -326,7 +326,7 @@ public final class SftpClient {
      * @throws SftpException
      */
     public String getFileType(String remotePath) throws SftpException {
-        System.out.printf("Getting type of [%s]...%n", remotePath);
+        log.info("Getting type of [%s]...%n", remotePath);
         if (channel == null) {
             throw new IllegalArgumentException("Connection is not available");
         }
@@ -342,7 +342,7 @@ public final class SftpClient {
      * @throws SftpException
      */
     public String getFileOwnerAndGroup(String remotePath) throws SftpException {
-        System.out.printf("Getting owner and group of [%s]...%n", remotePath);
+        log.info("Getting owner and group of [%s]...%n", remotePath);
         if (channel == null) {
             throw new IllegalArgumentException("Connection is not available");
         }
@@ -359,7 +359,7 @@ public final class SftpClient {
      * @throws SftpException
      */
     public List<String> getFilesAfterTime(String remoteDir, long time) throws SftpException {
-        System.out.printf("Getting files in [%s] modified after [%d]...%n", remoteDir, time);
+        log.info("Getting files in [%s] modified after [%d]...%n", remoteDir, time);
         if (channel == null) {
             throw new IllegalArgumentException("Connection is not available");
         }
@@ -382,7 +382,7 @@ public final class SftpClient {
      * @throws SftpException
      */
     public void moveFile(String srcPath, String destPath) throws SftpException {
-        System.out.printf("Moving [%s] to [%s]...%n", srcPath, destPath);
+        log.info("Moving [%s] to [%s]...%n", srcPath, destPath);
         if (channel == null) {
             throw new IllegalArgumentException("Connection is not available");
         }

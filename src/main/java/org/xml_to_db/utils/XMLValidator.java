@@ -1,5 +1,7 @@
 package org.xml_to_db.utils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -10,7 +12,13 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.io.StringReader;
 
+@Slf4j
 public class XMLValidator {
+
+    private XMLValidator() {
+        // Private constructor to prevent instantiation
+    }
+
     public static boolean validateXMLSchema(String xsdPath, String xmlPath) {
         try {
             SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -19,7 +27,7 @@ public class XMLValidator {
             validator.validate(new StreamSource(xmlPath));
             return true;
         } catch (Exception e) {
-            System.err.println("XML Validation Error: " + e.getMessage());
+            log.error("XML Validation Error: {}", e.getMessage(), e);
             return false;
         }
     }
@@ -40,8 +48,5 @@ public class XMLValidator {
         }
 
         throw new ClassCastException("Unmarshalled object is not of type " + clazz.getName());
-    }
-
-    private XMLValidator() {
     }
 }
