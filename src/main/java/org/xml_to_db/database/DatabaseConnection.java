@@ -1,5 +1,6 @@
 package org.xml_to_db.database;
 
+import lombok.extern.slf4j.Slf4j;
 import org.xml_to_db.core.models.ParsedData;
 
 import java.sql.Connection;
@@ -10,16 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class DatabaseConnection implements AutoCloseable {
     private final Connection connection;
 
     public DatabaseConnection(DatabaseConfiguration config) throws SQLException, ClassNotFoundException {
         Class.forName(config.getDriverClassName());
         this.connection = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
+        log.info("Database connection established");
     }
 
     public void save(Object data, String tableName) throws SQLException {
         if (!(data instanceof ParsedData)) {
+            log.error("Invalid data type. Expected ParsedData but got {}", data.getClass().getName());
             throw new IllegalArgumentException("Data must be of type ParsedData");
         }
         ParsedData parsedData = (ParsedData) data;
@@ -28,7 +32,8 @@ public class DatabaseConnection implements AutoCloseable {
         String sql = generateInsertSQL(fields, tableName);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             setStatementParameters(statement, fields);
-            statement.executeUpdate();
+            int rowsAffected = statement.executeUpdate();
+            log.info("Inserted {} rows into table: {}", rowsAffected, tableName);
         }
     }
 
@@ -59,6 +64,7 @@ public class DatabaseConnection implements AutoCloseable {
     public void close() throws SQLException {
         if (connection != null && !connection.isClosed()) {
             connection.close();
+            log.info("Database connection closed");
         }
     }
 
@@ -84,7 +90,8 @@ public class DatabaseConnection implements AutoCloseable {
             for (int i = 0; i < parameterValues.size(); i++) {
                 stmt.setObject(i + 1, parameterValues.get(i));
             }
-            stmt.executeUpdate();
+            int rowsAffected = stmt.executeUpdate();
+            log.info("Inserted {} rows into table: {}", rowsAffected, tableName);
         }
     }
 }
