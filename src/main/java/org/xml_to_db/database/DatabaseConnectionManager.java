@@ -1,7 +1,5 @@
 package org.xml_to_db.database;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -9,10 +7,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Manages database connections for different schemas.
- */
-@Slf4j
 public class DatabaseConnectionManager {
     private static final DatabaseConnectionManager INSTANCE = new DatabaseConnectionManager();
     private final Map<String, ThreadLocal<DatabaseConnection>> connectionHolders = new ConcurrentHashMap<>();
@@ -32,9 +26,7 @@ public class DatabaseConnectionManager {
                 throw new IOException("Unable to find database.properties");
             }
             dbProperties.load(input);
-            log.info("Database properties loaded successfully");
         } catch (IOException e) {
-            log.error("Failed to load database properties", e);
             throw new RuntimeException("Failed to load database properties", e);
         }
     }
@@ -47,9 +39,7 @@ public class DatabaseConnectionManager {
             try {
                 connection = new DatabaseConnection(config);
                 holder.set(connection);
-                log.info("Created new database connection for schema: {}", schema);
             } catch (ClassNotFoundException e) {
-                log.error("Failed to load database driver for schema: {}", schema, e);
                 throw new SQLException("Failed to load database driver", e);
             }
         }
@@ -72,7 +62,6 @@ public class DatabaseConnectionManager {
             if (connection != null) {
                 connection.close();
                 holder.remove();
-                log.info("Closed database connection for schema: {}", schema);
             }
         }
     }

@@ -37,7 +37,6 @@ public class SftpUtil {
     }
 
     private static String formatFinalValue(long originalBytes, double scaledValue, char sizeUnit) {
-        return "%.1f %cB".formatted(scaledValue * Long.signum(originalBytes), sizeUnit)
-                .replace(".0", ""); // Remove decimal point for whole numbers
+        return "%.1f %cB".formatted(scaledValue * Long.signum(originalBytes), sizeUnit);
     }
 }

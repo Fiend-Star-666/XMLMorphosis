@@ -16,7 +16,6 @@ public class SQSService implements QueueService {
     private final String queueUrl;
     private final String dlqUrl;
     ConfigLoader config = ConfigLoader.getInstance();
-
     public SQSService() {
         String accessKey = config.getProperty("AWS_ACCESS_KEY_ID");
         String secretKey = config.getProperty("AWS_SECRET_ACCESS_KEY");

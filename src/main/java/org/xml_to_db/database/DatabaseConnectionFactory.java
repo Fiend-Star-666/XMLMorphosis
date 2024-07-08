@@ -1,26 +1,18 @@
 package org.xml_to_db.database;
 
-import lombok.extern.slf4j.Slf4j;
 import org.xml_to_db.config.ConfigLoader;
 
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Slf4j
 public class DatabaseConnectionFactory {
     private static final Map<String, DatabaseConfiguration> configurations = new HashMap<>();
-    private static final ConfigLoader configLoader = ConfigLoader.getInstance();
 
     static {
-        loadConfigurations();
-    }
+        ConfigLoader configLoader = ConfigLoader.getInstance();
 
-    private DatabaseConnectionFactory() {
-        // Private constructor to prevent instantiation
-    }
-
-    private static void loadConfigurations() {
+        // Load database configurations from properties
         String[] dbConfigs = configLoader.getProperty("DB_CONFIGURATIONS").split(",");
         for (String config : dbConfigs) {
             String[] parts = config.split(":");
@@ -30,26 +22,21 @@ public class DatabaseConnectionFactory {
             String password = configLoader.getProperty("DB_PASSWORD_" + key);
             String driverClassName = configLoader.getProperty("DB_DRIVER_" + key);
             configurations.put(key, new DatabaseConfiguration(url, username, password, driverClassName));
-            log.info("Loaded database configuration for key: {}", key);
         }
     }
 
     public static DatabaseConnection getConnection(String xmlPath, String xsdPath) throws SQLException, ClassNotFoundException {
-        String key = determineConfigurationKey(xmlPath, xsdPath);
+        // Logic to determine which database configuration to use based on XML and XSD paths
+        // This could be based on file names, content, or other criteria
+        // For now, we'll use a simple mapping based on file names
+        String key = xmlPath.substring(xmlPath.lastIndexOf('/') + 1) + ":" + xsdPath.substring(xsdPath.lastIndexOf('/') + 1);
         DatabaseConfiguration config = configurations.get(key);
         if (config == null) {
-            log.error("No database configuration found for key: {}", key);
             throw new IllegalArgumentException("No database configuration found for " + key);
         }
-        log.info("Creating database connection for key: {}", key);
         return new DatabaseConnection(config);
     }
 
-    private static String determineConfigurationKey(String xmlPath, String xsdPath) {
-        // This is a simple implementation. You might want to implement a more sophisticated
-        // method to determine the configuration key based on your specific requirements.
-        String xmlFileName = xmlPath.substring(xmlPath.lastIndexOf('/') + 1);
-        String xsdFileName = xsdPath.substring(xsdPath.lastIndexOf('/') + 1);
-        return xmlFileName + ":" + xsdFileName;
+    private DatabaseConnectionFactory() {
     }
 }
