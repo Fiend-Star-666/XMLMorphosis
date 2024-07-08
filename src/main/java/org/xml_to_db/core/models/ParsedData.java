@@ -1,22 +1,25 @@
 package org.xml_to_db.core.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+@Data
+@Getter
 public class ParsedData {
-    private String rootElementName;
     private final Map<String, String> fields;
     private final List<String> nestedValues;
+    private String rootElementName;
 
     public ParsedData() {
         this.fields = new HashMap<>();
         this.nestedValues = new ArrayList<>();
-    }
-
-    public String getRootElementName() {
-        return rootElementName;
     }
 
     public void setRootElementName(String rootElementName) {
@@ -31,24 +34,8 @@ public class ParsedData {
         return fields.get(key);
     }
 
-    public Map<String, String> getFields() {
-        return fields;
-    }
-
     public void addNestedValue(String value) {
         nestedValues.add(value);
     }
 
-    public List<String> getNestedValues() {
-        return nestedValues;
-    }
-
-    @Override
-    public String toString() {
-        return "ParsedData{"
-                + "rootElementName='" + rootElementName + '\''
-                + ", fields=" + fields
-                + ", nestedValues=" + nestedValues
-                + '}';
-    }
 }
