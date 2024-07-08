@@ -9,6 +9,9 @@ import java.util.Optional;
 
 @Slf4j
 public class GlobalExceptionHandler {
+    private GlobalExceptionHandler() {
+    }
+
     public static HttpResponseMessage handleException(HttpRequestMessage<Optional<String>> request, Exception e) {
         // Log the exception
         log.error("Exception caught: " + e.getMessage());
@@ -17,8 +20,5 @@ public class GlobalExceptionHandler {
         return request.createResponseBuilder(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("An unexpected error occurred: " + e.getMessage())
                 .build();
-    }
-
-    private GlobalExceptionHandler() {
     }
 }

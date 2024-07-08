@@ -8,7 +8,6 @@ import com.azure.storage.blob.models.BlobItem;
 import org.xml_to_db.config.ConfigLoader;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AzureBlobStorageService implements StorageService {
     private final BlobContainerClient containerClient;
