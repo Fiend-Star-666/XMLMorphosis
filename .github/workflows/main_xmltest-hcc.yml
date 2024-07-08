@@ -35,7 +35,7 @@ jobs:
           pushd './${{ env.PACKAGE_DIRECTORY }}'
           mvn clean package
           popd
-      
+
       - name: Login to Azure
         uses: azure/login@v1
         with:
