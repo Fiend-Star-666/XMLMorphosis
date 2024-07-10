@@ -41,8 +41,8 @@
         <mssql.jdbc.version>12.6.3.jre11</mssql.jdbc.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <rewrite.logging.frameworks.version>2.4.2</rewrite.logging.frameworks.version>
-        <rewrite.maven.plugin.version>5.21.0</rewrite.maven.plugin.version>
-        <rewrite.migrate.java.version>2.7.1</rewrite.migrate.java.version>
+        <rewrite.maven.plugin.version>5.35.0</rewrite.maven.plugin.version>
+        <rewrite.migrate.java.version>2.19.0</rewrite.migrate.java.version>
         <rewrite.static.analysis.version>1.2.2</rewrite.static.analysis.version>
         <slf4j.version>2.1.0-alpha1</slf4j.version>
         <azure.function.os>linux</azure.function.os>
@@ -346,11 +346,6 @@
                         <groupId>org.openrewrite.recipe</groupId>
                         <artifactId>rewrite-static-analysis</artifactId>
                         <version>${rewrite.static.analysis.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.openrewrite.recipe</groupId>
-                        <artifactId>rewrite-migrate-java</artifactId>
-                        <version>2.19.0</version>
                     </dependency>
                 </dependencies>
             </plugin>

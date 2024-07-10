@@ -45,3 +45,4 @@ obj/
 /gradlew
 /gradlew.bat
 /.azure/profiles.xml
+/local-run.env
