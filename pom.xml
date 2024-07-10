@@ -12,35 +12,44 @@
     <description>XML to DB Transformer</description>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>21</java.version>
-        <azure.functions.maven.plugin.version>1.24.0</azure.functions.maven.plugin.version>
-        <azure.functions.java.library.version>3.1.0</azure.functions.java.library.version>
-        <functionAppName>xmlToDb-1718905849582</functionAppName>
-        <azure.functions.java.library.version>3.1.0</azure.functions.java.library.version>
-        <lombok.version>1.18.34</lombok.version>
-        <slf4j.version>2.1.0-alpha1</slf4j.version>
-        <logback.version>1.5.6</logback.version>
-        <junit.jupiter.version>5.10.2</junit.jupiter.version>
-        <mockito.version>5.11.0</mockito.version>
-        <jsch.version>0.2.18</jsch.version>
-        <azure.storage.version>8.6.6</azure.storage.version>
+        <aws.sdk.s3.version>1.12.759</aws.sdk.s3.version>
+        <aws.sdk.sqs.version>1.12.759</aws.sdk.sqs.version>
         <aws.sdk.version>2.26.16</aws.sdk.version>
-        <spring.jdbc.version>6.1.10</spring.jdbc.version>
-        <mssql.jdbc.version>12.6.3.jre11</mssql.jdbc.version>
-        <jackson.version>2.17.2</jackson.version>
-        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+        <azure.functions.java.library.version>3.1.0</azure.functions.java.library.version>
         <azure.functions.maven.plugin.version>1.24.0</azure.functions.maven.plugin.version>
+        <azure.storage.blob.version>12.27.0-beta.1</azure.storage.blob.version>
+        <azure.storage.queue.version>12.22.0-beta.1</azure.storage.queue.version>
+        <azure.storage.version>8.6.6</azure.storage.version>
+        <functionAppName>xmlToDb-1718905849582</functionAppName>
+        <jacoco.version>0.8.12</jacoco.version>
+        <jacoco.minimum.code.coverage>0.0</jacoco.minimum.code.coverage>
+        <jackson.version>2.17.2</jackson.version>
+        <jakarta.xml.bind-api.version>4.0.2</jakarta.xml.bind-api.version>
+        <java.version>21</java.version>
+        <jaxb-runtime.version>4.0.5</jaxb-runtime.version>
+        <jetbrains.annotation.version>24.1.0</jetbrains.annotation.version>
+        <jsch.version>0.2.18</jsch.version>
+        <junit.jupiter.version>5.10.2</junit.jupiter.version>
+        <logback.version>1.5.6</logback.version>
+        <lombok.version>1.18.34</lombok.version>
         <maven.clean.plugin.version>3.1.0</maven.clean.plugin.version>
+        <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
-        <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
         <maven.resources.plugin.version>3.3.1</maven.resources.plugin.version>
-        <jacoco.version>0.8.12</jacoco.version>
-        <rewrite.maven.plugin.version>5.21.0</rewrite.maven.plugin.version>
+        <mockito.version>5.11.0</mockito.version>
+        <mssql.jdbc.version>12.6.3.jre11</mssql.jdbc.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <rewrite.logging.frameworks.version>2.4.2</rewrite.logging.frameworks.version>
+        <rewrite.maven.plugin.version>5.21.0</rewrite.maven.plugin.version>
         <rewrite.migrate.java.version>2.7.1</rewrite.migrate.java.version>
         <rewrite.static.analysis.version>1.2.2</rewrite.static.analysis.version>
+        <slf4j.version>2.1.0-alpha1</slf4j.version>
+        <azure.function.os>linux</azure.function.os>
+        <spring.jdbc.version>6.1.10</spring.jdbc.version>
+        <azure.function.version>~4</azure.function.version>
+        <azure.pricing.tier>Consumption</azure.pricing.tier>
+        <azure.region>eastus</azure.region>
     </properties>
 
     <dependencies>
@@ -98,21 +107,15 @@
 
         <!-- Azure Storage -->
         <dependency>
-            <groupId>com.microsoft.azure</groupId>
-            <artifactId>azure-storage</artifactId>
-            <version>${azure.storage.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-storage-blob</artifactId>
-            <version>12.26.1</version>
+            <version>${azure.storage.blob.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-storage-queue</artifactId>
-            <version>12.21.1</version>
+            <version>${azure.storage.queue.version}</version>
         </dependency>
 
 
@@ -127,7 +130,7 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-s3</artifactId>
-            <version>1.12.757</version>
+            <version>${aws.sdk.s3.version}</version>
         </dependency>
 
         <dependency>
@@ -139,7 +142,7 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-sqs</artifactId>
-            <version>1.12.757</version>
+            <version>${aws.sdk.sqs.version}</version>
         </dependency>
 
 
@@ -170,26 +173,32 @@
             <version>${jackson.version}</version>
         </dependency>
 
-        <!-- Additional XML libraries -->
+        <!-- Jakarta XML Bind API -->
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
-            <version>2.3.3</version>
+            <version>${jakarta.xml.bind-api.version}</version>
         </dependency>
 
+        <!-- JAXB Runtime -->
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
-            <version>2.3.9</version>
+            <version>${jaxb-runtime.version}</version>
         </dependency>
 
+        <!-- Jakarta Activation (required for JAXB) -->
+        <dependency>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>jakarta.activation</artifactId>
+            <version>2.0.1</version>
+        </dependency>
 
         <!-- Annotations -->
-
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>24.0.0</version>
+            <version>${jetbrains.annotation.version}</version>
             <scope>compile</scope>
         </dependency>
 
@@ -225,20 +234,14 @@
                     <resourceGroup>java-functions-group</resourceGroup>
                     <!-- function app service plan name -->
                     <appServicePlanName>java-functions-app-service-plan</appServicePlanName>
-                    <!-- function app region-->
-                    <!-- refers https://github.com/microsoft/azure-maven-plugins/wiki/Azure-Functions:-Configuration-Details#supported-regions for all valid values -->
-                    <region>eastus</region>
+                    <region>${azure.region}</region>
                     <!-- function pricingTier, default to be consumption if not specified -->
                     <!-- refers https://github.com/microsoft/azure-maven-plugins/wiki/Azure-Functions:-Configuration-Details#supported-pricing-tiers for all valid values -->
-                    <pricingTier>Consumption</pricingTier>
-
-                    <!-- Whether to disable application insights, default is false -->
-                    <!-- refers https://github.com/microsoft/azure-maven-plugins/wiki/Azure-Functions:-Configuration-Details for all valid configurations for application insights-->
-                    <!-- <disableAppInsights></disableAppInsights> -->
+                    <pricingTier>${azure.pricing.tier}</pricingTier>
                     <runtime>
                         <!-- runtime os, could be windows, linux or docker-->
-                        <os>linux</os>
-                        <javaVersion>21</javaVersion>
+                        <os>${azure.function.os}</os>
+                        <javaVersion>${java.version}</javaVersion>
                         <!-- for docker function, please set the following parameters -->
                         <!-- <image>[hub-user/]repo-name[:tag]</image> -->
                         <!-- <serverId></serverId> -->
@@ -247,7 +250,7 @@
                     <appSettings>
                         <property>
                             <name>FUNCTIONS_EXTENSION_VERSION</name>
-                            <value>~4</value>
+                            <value>${azure.function.version}</value>
                         </property>
                     </appSettings>
                 </configuration>
@@ -307,7 +310,7 @@
                                         <limit>
                                             <counter>INSTRUCTION</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.0</minimum>
+                                            <minimum>${jacoco.minimum.code.coverage}</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
@@ -344,8 +347,19 @@
                         <artifactId>rewrite-static-analysis</artifactId>
                         <version>${rewrite.static.analysis.version}</version>
                     </dependency>
+                    <dependency>
+                        <groupId>org.openrewrite.recipe</groupId>
+                        <artifactId>rewrite-migrate-java</artifactId>
+                        <version>2.19.0</version>
+                    </dependency>
                 </dependencies>
             </plugin>
         </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>maven-central</id>
+            <url>https://repo.maven.apache.org/maven2/</url>
+        </repository>
+    </repositories>
 </project>

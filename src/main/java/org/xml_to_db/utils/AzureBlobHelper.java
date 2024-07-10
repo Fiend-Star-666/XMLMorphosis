@@ -42,7 +42,7 @@ public class AzureBlobHelper {
         BlobClient blobClient = containerClient.getBlobClient(blobName);
 
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
-            blobClient.download(outputStream);
+            blobClient.downloadStream(outputStream);
             String content = outputStream.toString();
             logger.info("Downloaded blob {} from container {}", blobName, containerName);
             return content;
