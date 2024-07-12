@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Data
 @AllArgsConstructor
-public class DataRetrievalLog {
+public class DataRetrievalLog implements DatabaseModelObject{
     private int logID;
     private Integer companyId;
     private String employeeNumber;
