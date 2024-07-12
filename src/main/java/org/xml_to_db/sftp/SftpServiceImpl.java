@@ -20,7 +20,7 @@ public class SftpServiceImpl implements SftpService {
     }
 
     @Override
-    public void connect() throws JSchException {
+    public void connect() throws Exception {
         sftpClient.connect();
     }
 

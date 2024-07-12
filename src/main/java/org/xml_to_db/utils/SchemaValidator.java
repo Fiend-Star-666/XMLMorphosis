@@ -1,5 +1,7 @@
 package org.xml_to_db.utils;
 
+import org.xml_to_db.core.handlers.ErrorHandler;
+
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -20,7 +22,7 @@ public class SchemaValidator {
             validator.validate(new StreamSource(new StringReader(xmlContent)));
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorHandler.handleException("Exception while validating Schema", e);
             return false;
         }
     }

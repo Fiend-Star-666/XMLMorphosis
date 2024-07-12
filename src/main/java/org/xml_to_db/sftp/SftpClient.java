@@ -5,6 +5,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import lombok.extern.slf4j.Slf4j;
+import org.xml_to_db.core.handlers.ErrorHandler;
 
 @Slf4j
 public class SftpClient implements AutoCloseable {
@@ -18,7 +19,7 @@ public class SftpClient implements AutoCloseable {
         this.jsch = new JSch();
     }
 
-    public void connect() throws JSchException {
+    public void connect() throws Exception {
         log.info("Connecting to SFTP server {}:{}", config.getHost(), config.getPort());
         try {
             session = jsch.getSession(config.getUsername(), config.getHost(), config.getPort());
@@ -29,7 +30,7 @@ public class SftpClient implements AutoCloseable {
             channel.connect(30000); // 30 seconds timeout
             log.info("Connected successfully to SFTP server");
         } catch (JSchException e) {
-            log.error("Failed to connect to SFTP server: {}", e.getMessage());
+            ErrorHandler.handleException("Failed to connect to SFTP server: {}", e, true);
             throw e;
         }
     }

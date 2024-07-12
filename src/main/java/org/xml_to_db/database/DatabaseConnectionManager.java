@@ -1,9 +1,13 @@
 package org.xml_to_db.database;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
+import org.xml_to_db.core.handlers.ErrorHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.Properties;
@@ -15,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class DatabaseConnectionManager {
     private static final DatabaseConnectionManager INSTANCE = new DatabaseConnectionManager();
-    private final Map<String, ThreadLocal<DatabaseConnection>> connectionHolders = new ConcurrentHashMap<>();
+    private final Map<String, HikariDataSource> dataSources = new ConcurrentHashMap<>();
     private final Properties dbProperties = new Properties();
 
     private DatabaseConnectionManager() {
@@ -34,26 +38,26 @@ public class DatabaseConnectionManager {
             dbProperties.load(input);
             log.info("Database properties loaded successfully");
         } catch (IOException e) {
-            log.error("Failed to load database properties", e);
-            throw new RuntimeException("Failed to load database properties", e);
+            ErrorHandler.handleException("Failed to load database properties", e);
         }
     }
 
-    public DatabaseConnection getConnection(String schema) throws SQLException {
-        ThreadLocal<DatabaseConnection> holder = connectionHolders.computeIfAbsent(schema, k -> new ThreadLocal<>());
-        DatabaseConnection connection = holder.get();
-        if (connection == null) {
-            DatabaseConfiguration config = createDatabaseConfiguration(schema);
-            try {
-                connection = new DatabaseConnection(config);
-                holder.set(connection);
-                log.info("Created new database connection for schema: {}", schema);
-            } catch (ClassNotFoundException e) {
-                log.error("Failed to load database driver for schema: {}", schema, e);
-                throw new SQLException("Failed to load database driver", e);
-            }
-        }
-        return connection;
+    public DatabaseConnection getConnection(String schema) throws SQLException, ClassNotFoundException {
+        HikariDataSource dataSource = dataSources.computeIfAbsent(schema, this::createDataSource);
+        return new DatabaseConnection((DatabaseConfiguration) dataSource.getConnection());
+    }
+
+    private HikariDataSource createDataSource(String schema) {
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(getUrlForSchema(schema));
+        config.setUsername(getUsernameForSchema(schema));
+        config.setPassword(getPasswordForSchema(schema));
+        config.setDriverClassName(getDriverClassNameForSchema(schema));
+        config.setMaximumPoolSize(10);
+        config.setMinimumIdle(5);
+        config.setIdleTimeout(300000);
+        config.setConnectionTimeout(10000);
+        return new HikariDataSource(config);
     }
 
     private DatabaseConfiguration createDatabaseConfiguration(String schema) {
@@ -63,18 +67,6 @@ public class DatabaseConnectionManager {
         String driverClassName = getDriverClassNameForSchema(schema);
 
         return new DatabaseConfiguration(url, username, password, driverClassName);
-    }
-
-    public void closeConnection(String schema) throws SQLException {
-        ThreadLocal<DatabaseConnection> holder = connectionHolders.get(schema);
-        if (holder != null) {
-            DatabaseConnection connection = holder.get();
-            if (connection != null) {
-                connection.close();
-                holder.remove();
-                log.info("Closed database connection for schema: {}", schema);
-            }
-        }
     }
 
     private String getUrlForSchema(String schema) {
@@ -98,5 +90,10 @@ public class DatabaseConnectionManager {
     private String getDriverClassNameForSchema(String schema) {
         return dbProperties.getProperty(schema + ".driver",
                 dbProperties.getProperty("default.driver"));
+    }
+
+    public void closeAllConnections() {
+        dataSources.values().forEach(HikariDataSource::close);
+        dataSources.clear();
     }
 }

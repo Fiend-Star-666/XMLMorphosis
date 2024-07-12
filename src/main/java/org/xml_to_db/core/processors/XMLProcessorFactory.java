@@ -3,18 +3,23 @@ package org.xml_to_db.core.processors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml_to_db.config.ConfigLoader;
+import org.xml_to_db.core.handlers.ErrorHandler;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class XMLProcessorFactory {
     private static final Logger logger = LoggerFactory.getLogger(XMLProcessorFactory.class);
-    private static final Map<String, XMLProcessor> processors = new HashMap<>();
+    private static final Map<String, XMLProcessor<?>> processors = new HashMap<>();
     private static final DefaultXMLProcessor defaultProcessor = new DefaultXMLProcessor();
 
-    ConfigLoader config = ConfigLoader.getInstance();
+    private static final ConfigLoader config = ConfigLoader.getInstance();
 
-    public static XMLProcessor getProcessor(String xmlPath, String xsdPath) {
+    static {
+        loadProcessors();
+    }
+
+    public static XMLProcessor<?> getProcessor(String xmlPath, String xsdPath) {
         String key = determineProcessorKey(xmlPath, xsdPath);
         return processors.getOrDefault(key, defaultProcessor);
     }
@@ -27,25 +32,23 @@ public class XMLProcessorFactory {
         return xmlFileName + ":" + xsdFileName;
     }
 
-    private void loadProcessors() {
-        String processorClassesString = config.getProperty("XML_PROCESSOR_CLASSES");
-        if (processorClassesString != null && !processorClassesString.isEmpty()) {
-            String[] processorClasses = processorClassesString.split(",");
-            for (String processorClass : processorClasses) {
-                try {
-                    Class<?> clazz = Class.forName(processorClass.trim());
-                    if (XMLProcessor.class.isAssignableFrom(clazz)) {
-                        XMLProcessor processor = (XMLProcessor) clazz.getDeclaredConstructor().newInstance();
-                        processors.put(processorClass, processor);
-                        logger.info("Loaded XML processor: {}", processorClass);
-                    } else {
-                        logger.warn("Class {} does not implement XMLProcessor interface", processorClass);
-                    }
-                } catch (Exception e) {
-                    logger.error("Error loading XML processor: {}", processorClass, e);
+    private static void loadProcessors() {
+        String[] processorClasses = config.getProperty("XML_PROCESSOR_CLASSES").split(",");
+        for (String processorClassName : processorClasses) {
+            try {
+                Class<?> clazz = Class.forName(processorClassName.trim());
+                if (XMLProcessor.class.isAssignableFrom(clazz)) {
+                    XMLProcessor<?> processor = (XMLProcessor<?>) clazz.getDeclaredConstructor().newInstance();
+                    processors.put(clazz.getSimpleName(), processor);
+                    logger.info("Loaded XML processor: {}", processorClassName);
+                } else {
+                    logger.warn("Class {} does not implement XMLProcessor interface", processorClassName);
                 }
+            } catch (Exception e) {
+                ErrorHandler.handleException("Error loading XML processor:" + processorClassName, e);
             }
-        } else {
+        }
+        if (processors.isEmpty()) {
             logger.warn("No XML processor classes configured");
         }
     }

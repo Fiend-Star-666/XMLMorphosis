@@ -118,7 +118,6 @@
             <version>${azure.storage.queue.version}</version>
         </dependency>
 
-
         <!-- Azure Functions -->
         <dependency>
             <groupId>com.microsoft.azure.functions</groupId>
@@ -145,7 +144,6 @@
             <version>${aws.sdk.sqs.version}</version>
         </dependency>
 
-
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>sqs</artifactId>
@@ -159,12 +157,19 @@
             <version>${spring.jdbc.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>5.1.0</version>
+        </dependency>
+
         <!-- Microsoft SQL Server JDBC Driver -->
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
             <version>${mssql.jdbc.version}</version>
         </dependency>
+
 
         <!-- XML Processing -->
         <dependency>

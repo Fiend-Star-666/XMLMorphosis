@@ -7,6 +7,7 @@ import com.azure.storage.blob.BlobServiceClientBuilder;
 import com.azure.storage.blob.models.BlobItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml_to_db.core.handlers.ErrorHandler;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -32,8 +33,7 @@ public class AzureBlobHelper {
             blobClient.upload(dataStream, content.length());
             logger.info("Uploaded blob {} to container {}", blobName, containerName);
         } catch (Exception e) {
-            logger.error("Error uploading blob {} to container {}", blobName, containerName, e);
-            throw new RuntimeException("Error uploading blob", e);
+            ErrorHandler.handleException("Error uploading blob" + blobName + "to container + containerName", e);
         }
     }
 
@@ -47,9 +47,9 @@ public class AzureBlobHelper {
             logger.info("Downloaded blob {} from container {}", blobName, containerName);
             return content;
         } catch (Exception e) {
-            logger.error("Error downloading blob {} from container {}", blobName, containerName, e);
-            throw new RuntimeException("Error downloading blob", e);
+            ErrorHandler.handleException("Error uploading blob" + blobName + "to container + containerName", e);
         }
+        return "Failed";
     }
 
     public List<String> listBlobs(String containerName) {
@@ -63,9 +63,9 @@ public class AzureBlobHelper {
             logger.info("Listed {} blobs in container {}", blobNames.size(), containerName);
             return blobNames;
         } catch (Exception e) {
-            logger.error("Error listing blobs in container {}", containerName, e);
-            throw new RuntimeException("Error listing blobs", e);
+            ErrorHandler.handleException("Error listing blobs in container" + containerName, e);
         }
+        return blobNames;
     }
 
     public void deleteBlob(String containerName, String blobName) {
@@ -76,8 +76,7 @@ public class AzureBlobHelper {
             blobClient.delete();
             logger.info("Deleted blob {} from container {}", blobName, containerName);
         } catch (Exception e) {
-            logger.error("Error deleting blob {} from container {}", blobName, containerName, e);
-            throw new RuntimeException("Error deleting blob", e);
+            ErrorHandler.handleException("Error deleting blob " + blobName + " from container " + containerName, e);
         }
     }
 
@@ -90,9 +89,9 @@ public class AzureBlobHelper {
             logger.info("Checked existence of blob {} in container {}. Exists: {}", blobName, containerName, exists);
             return exists;
         } catch (Exception e) {
-            logger.error("Error checking existence of blob {} in container {}", blobName, containerName, e);
-            throw new RuntimeException("Error checking blob existence", e);
+            ErrorHandler.handleException("Error checking existence of blob " + blobName + " in container" + containerName, e);
         }
+        return false;
     }
 
     public String getBlobUrl(String containerName, String blobName) {

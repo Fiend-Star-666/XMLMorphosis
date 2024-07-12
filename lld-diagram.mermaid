@@ -16,6 +16,119 @@
 }%%
 classDiagram
     direction LR
+
+%% Config
+    namespace config {
+        class ConfigLoader {
+            +getInstance() ConfigLoader
+            +getProperty(String) String
+            +getIntProperty(String) int
+        }
+    }
+
+    namespace core {
+        class DatabaseModelObject
+        class DataRetrievalLog
+        class GenericXmlHandler
+        class XmlHandler
+        class ParsedData
+        class DomParser
+        class ParserFactory
+        class SaxParser
+        class XmlParser
+        class DefaultXMLProcessor
+        class XMLProcessor
+        class XMLProcessorFactory
+    }
+
+    namespace database {
+        class DatabaseConfiguration
+        class DatabaseConnection
+        class DatabaseConnectionFactory
+        class DatabaseConnectionManager
+        class DatabaseStrategy
+        class DatabaseStrategyFactory
+        class SqlServerStrategy
+    }
+
+    namespace factory {
+        class ServiceFactory
+    }
+
+    namespace functions {
+        class BaseFunction
+        class HttpTriggerFunction
+        class QueueTriggerFunction
+    }
+
+    namespace queue {
+        class AzureQueueService
+        class QueueService
+        class QueueServiceFactory
+        class SQSService
+    }
+
+    namespace services {
+        class XmlProcessingService
+    }
+
+    namespace sftp {
+        class SftpClient
+        class SftpConfig
+        class SftpOperations
+        class SftpOperationsImpl
+        class SftpService
+        class SftpServiceImpl
+        class SftpUtil
+    }
+
+    namespace storage {
+        class AzureBlobStorageService
+        class S3StorageService
+        class StorageService
+        class StorageServiceFactory
+    }
+
+    namespace utils {
+        class AwsClientHelper
+        class AzureBlobHelper
+        class AzureQueueHelper
+        class GlobalExceptionHandler
+        class SchemaValidator
+        class XMLValidator
+    }
+
+    XmlHandler <|-- GenericXmlHandler
+    XmlParser <|-- DomParser
+    XmlParser <|-- SaxParser
+    XMLProcessor <|-- DefaultXMLProcessor
+    DatabaseStrategy <|-- SqlServerStrategy
+    QueueService <|-- AzureQueueService
+    QueueService <|-- SQSService
+    StorageService <|-- AzureBlobStorageService
+    StorageService <|-- S3StorageService
+    SftpOperations <|-- SftpOperationsImpl
+    SftpService <|-- SftpServiceImpl
+
+    HttpTriggerFunction --> XmlProcessingService : uses
+    XmlProcessingService --> XMLProcessorFactory : uses
+    XmlProcessingService --> DatabaseConnectionFactory : uses
+    XMLProcessorFactory --> XMLProcessor : creates
+    ParserFactory --> XmlParser : creates
+    DatabaseStrategyFactory --> DatabaseStrategy : creates
+    QueueServiceFactory --> QueueService : creates
+    StorageServiceFactory --> StorageService : creates
+    DatabaseConnectionFactory --> DatabaseConnection : creates
+
+%% Design pattern notes
+    note for ConfigLoader "Singleton"
+    note for DatabaseConnectionFactory "Singleton"
+    note for XMLProcessorFactory "Factory"
+    note for ParserFactory "Factory"
+    note for DatabaseStrategyFactory "Factory"
+    note for QueueServiceFactory "Factory"
+    note for StorageServiceFactory "Factory"
+
 %% Core Components
     class HttpTriggerFunction {
         +run(HttpRequestMessage): HttpResponseMessage
@@ -205,6 +318,8 @@ classDiagram
 %% Design Patterns
     note for ConfigLoader "Singleton"
     note for DatabaseConnectionFactory "Singleton"
+    note for ParserFactory "Factory"
+    note for DatabaseStrategyFactory "Factory"
     note for XMLProcessorFactory "Factory"
     note for StorageServiceFactory "Factory"
     note for QueueServiceFactory "Factory"

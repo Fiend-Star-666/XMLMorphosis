@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.xml_to_db.core.models.ParsedData;
 import org.xml_to_db.core.parsers.ParserFactory;
 import org.xml_to_db.core.parsers.XmlParser;
+import org.xml_to_db.database.DatabaseConnection;
 import org.xml_to_db.database.DatabaseConnectionManager;
 import org.xml_to_db.utils.SchemaValidator;
 
@@ -30,17 +31,18 @@ public class GenericXmlHandler implements XmlHandler {
 
                 // Save parsed data to the database
                 String tableName = determineTableName(data);
-                dbManager.getConnection(schemaPath).saveData(data, tableName);
-
+                try (DatabaseConnection dbConnection = dbManager.getConnection(schemaPath)) {
+                    dbConnection.save(data, tableName);
+                }
                 logger.info("Successfully processed and saved XML data to table: {}", tableName);
             } else {
                 handleSchemaValidationFailure(xmlContent, schemaPath);
             }
         } catch (SQLException e) {
-            logger.error("Failed to save data to database", e);
+            ErrorHandler.handleException("Failed to save data to database", e);
             handleDatabaseError(xmlContent, schemaPath, e);
         } catch (Exception e) {
-            logger.error("Error processing XML content", e);
+            ErrorHandler.handleException("Error processing XML content", e);
             handleProcessingError(xmlContent, schemaPath, e);
         }
     }
