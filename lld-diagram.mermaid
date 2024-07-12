@@ -1,78 +1,120 @@
 classDiagram
-    class HttpTriggerFunction {
-        - processRequest(request, context)
-        - processXmlFile(xmlFilePath, xsdPath, storageService, context)
-        + run(request, context)
-    }
-    class BaseFunction {
-        # execute(request, context, function)
-    }
-    class GlobalExceptionHandler {
-        + handleException(request, e)
-    }
-    class ConfigLoader {
-        - PROPERTIES_FILE: String
-        - properties: Properties
-        + getProperty(key): String
-        + getIntProperty(key): int
-    }
-    class StorageServiceFactory {
-        + getStorageService(storageType): StorageService
-    }
-    class StorageService {
-        <<interface>>
-        + listFiles(fileExtension): List~String~
-        + readFileContent(filePath): String
-        + writeFile(filePath, content)
-        + deleteFile(filePath)
-    }
-    class AzureBlobStorageService {
-        - containerClient: BlobContainerClient
-    }
-    class S3StorageService {
-        - s3Client: AmazonS3
-        - bucketName: String
-    }
-    class XMLValidator {
-        + validateXMLSchema(xsdPath, xmlPath): boolean
-        + parseXml(xmlContent, clazz): T
-    }
-    class XMLProcessorFactory {
-        - processors: Map~String, XMLProcessor~
-        + getProcessor(xmlPath, xsdPath): XMLProcessor
-    }
-    class XMLProcessor {
-        <<interface>>
-        + process(document): Object
-    }
-    class DatabaseConnectionFactory {
-        - configurations: Map~String, DatabaseConfiguration~
-        + getConnection(xmlPath, xsdPath): DatabaseConnection
-    }
-    class DatabaseConfiguration {
-        - url: String
-        - username: String
-        - password: String
-        - driverClassName: String
-    }
-    class DatabaseConnection {
-        - connection: Connection
-        + save(data, tableName)
-        + close()
-    }
+%% Core Components
+subgraph Core
+HttpTriggerFunction "1" --> "1" XmlProcessingService : uses
+class HttpTriggerFunction {
++run(HttpRequestMessage) HttpResponseMessage
+-processRequest(HttpRequestMessage, ExecutionContext) HttpResponseMessage
+-processXmlFile(String, List~String~, ExecutionContext) void
+        }
+class XmlProcessingService {
+-Map~String, String~ schemaMap
++processXml(String, String) void
+}
+end
 
-    HttpTriggerFunction --|> BaseFunction
-    HttpTriggerFunction ..> StorageServiceFactory
-    HttpTriggerFunction ..> XMLValidator
-    HttpTriggerFunction ..> XMLProcessorFactory
-    HttpTriggerFunction ..> DatabaseConnectionFactory
-    BaseFunction ..> GlobalExceptionHandler
-    StorageServiceFactory ..> ConfigLoader
-    StorageServiceFactory ..> StorageService
-    AzureBlobStorageService ..|> StorageService
-    S3StorageService ..|> StorageService
-    XMLProcessorFactory ..> XMLProcessor
-    XMLProcessorFactory ..> ConfigLoader
-    DatabaseConnectionFactory ..> DatabaseConfiguration
-    DatabaseConnectionFactory ..> DatabaseConnection
-    DatabaseConnection ..> DatabaseConfiguration
+%% Interfaces and Implementations
+subgraph Services
+XMLProcessor <|.. DefaultXMLProcessor
+XMLProcessor <|.. GeneratedClassXMLProcessor
+StorageService <|.. AzureBlobStorageService
+StorageService <|.. S3StorageService
+QueueService <|.. AzureQueueService
+QueueService <|.. SQSService
+
+class XMLProcessor {
+<<interface>>
++process(Document) Object
+}
+class StorageService {
+<<interface>>
++listFiles(String) List~String~
++readFileContent(String) String
++writeFile(String, String) void
++deleteFile(String) void
+}
+class QueueService {
+<<interface>>
++sendMessage(String) void
++sendToDeadLetterQueue(String) void
++receiveMessages(int) List~String~
++deleteMessage(String, String) void
++getQueueLength() int
++createQueueIfNotExists() void
++deleteQueue() void
+}
+end
+
+%% Database
+subgraph Database
+DatabaseConnectionFactory "1" --> "0..*" DatabaseConnection : creates
+class DatabaseConnectionFactory {
++getInstance() DatabaseConnectionFactory
++getConnection(String, String) Connection
++withConnection(String, String, DatabaseOperation) void
+}
+class DatabaseConnection {
++saveData(Object, String) void
+-saveParsedData(ParsedData, String) void
+-saveGeneratedClassData(Object, String) void
+}
+end
+
+%% Factories
+subgraph Factories
+XMLProcessorFactory "1" --> "1..*" XMLProcessor : creates
+StorageServiceFactory ..> StorageService : creates
+QueueServiceFactory ..> QueueService : creates
+class XMLProcessorFactory {
++getProcessor(String, String) XMLProcessor
+-generateJavaClassesFromXsd() Map~String, Class~
+        }
+class StorageServiceFactory {
++getStorageService(String) StorageService
+}
+class QueueServiceFactory {
++getQueueService(String) QueueService
+}
+end
+
+%% Utilities
+subgraph Utilities
+class ConfigLoader {
++getInstance() ConfigLoader
++getProperty(String) String
++getIntProperty(String) int
+        }
+class RetryUtil {
++retry~T~(int, Callable~T~) T
++retryVoid(int, VoidCallable) void
+}
+class XMLValidator {
++validateXMLSchema(String, String) boolean
++parseXmlDocument(String) Document
++documentToString(Document) String
+}
+class XsdToJavaGenerator {
++generateJavaClasses(String, String, String) void
+}
+end
+
+%% Relationships between subgraphs
+HttpTriggerFunction "1" --> "1" XMLProcessorFactory : uses
+HttpTriggerFunction "1" --> "1" StorageService : uses
+HttpTriggerFunction "1" --> "1" QueueService : uses
+XmlProcessingService "1" --> "1" XMLProcessorFactory : uses
+XmlProcessingService "1" --> "1" DatabaseConnectionFactory : uses
+XMLProcessorFactory "1" --> "1" XsdToJavaGenerator : uses
+
+HttpTriggerFunction "1" --> "1" ConfigLoader : uses
+HttpTriggerFunction "1" --> "1" RetryUtil : uses
+HttpTriggerFunction "1" --> "1" XMLValidator : uses
+XmlProcessingService "1" --> "1" XMLValidator : uses
+
+%% Design Patterns
+note for ConfigLoader "Singleton"
+note for DatabaseConnectionFactory "Singleton"
+note for XMLProcessorFactory "Factory"
+note for StorageServiceFactory "Factory"
+note for QueueServiceFactory "Factory"
+note for RetryUtil "Template Method"
