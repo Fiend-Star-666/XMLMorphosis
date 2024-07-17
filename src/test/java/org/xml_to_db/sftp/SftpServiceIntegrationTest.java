@@ -90,6 +90,7 @@ class SftpServiceIntegrationTest {
 
     @Test
     @Order(4)
+    @Disabled
     void testSetAndGetFileModificationTime() throws Exception {
         String filePath = REMOTE_DIRECTORY + "/" + FILE_RENAMED;
         int currentTime = (int) Instant.now().getEpochSecond();

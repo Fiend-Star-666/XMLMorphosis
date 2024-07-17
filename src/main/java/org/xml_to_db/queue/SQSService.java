@@ -4,6 +4,7 @@ import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml_to_db.config.ConfigLoader;
+import org.xml_to_db.core.handlers.ErrorHandler;
 import org.xml_to_db.utils.AwsClientHelper;
 import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.model.SendMessageRequest;
@@ -39,7 +40,7 @@ public class SQSService implements QueueService {
             logger.info("Processing message: {}", message);
             // If processing fails, send to DLQ
         } catch (Exception e) {
-            logger.error("Error processing message. Sending to DLQ.", e);
+            ErrorHandler.handleException("Error processing message. Sending to DLQ.", e);
             sendToDeadLetterQueue(message);
         }
     }
@@ -55,7 +56,7 @@ public class SQSService implements QueueService {
             sqsClient.sendMessage(sendMessageRequest);
             logger.info("Message sent to DLQ: {}", dlqUrl);
         } catch (Exception e) {
-            logger.error("Failed to send message to DLQ", e);
+            ErrorHandler.handleException("Failed to send message to DLQ", e);
         }
     }
 

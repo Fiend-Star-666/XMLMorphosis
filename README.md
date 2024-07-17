@@ -57,3 +57,16 @@ Found a bug? Have an idea for an amazing feature? We're all ears! Open an issue,
 carrier pigeon. Let's make XMLMorphosis even more magical together!
 
 Remember, with great XML comes great responsibility. Use XMLMorphosis wisely, and may your data always flow smoothly! 🌊
+
+### 🚀 Create a random Sftp Test Server:
+    
+    ```bash
+    https://sftpcloud.io/tools/free-sftp-server
+    
+    Use the above link to generate the sftp server credentials and add those in your test run configuration as Environment variables.
+    
+    A screenshot is given below for reference.
+    ```
+
+![TestRunConfiguration.png](doc-assets/TestRunConfiguration.png)
+

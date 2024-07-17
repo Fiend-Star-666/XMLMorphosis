@@ -5,6 +5,7 @@ import com.azure.storage.queue.models.SendMessageResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml_to_db.config.ConfigLoader;
+import org.xml_to_db.core.handlers.ErrorHandler;
 import org.xml_to_db.utils.AzureQueueHelper;
 
 public class AzureQueueService implements QueueService {
@@ -36,7 +37,7 @@ public class AzureQueueService implements QueueService {
             logger.info("Processing message: {}", message);
             // If processing fails, send to DLQ
         } catch (Exception e) {
-            logger.error("Error processing message. Sending to DLQ.", e);
+            ErrorHandler.handleException("Azure ProcessMessage Failed : Error processing message. Sending to DLQ.",e);
             sendToDeadLetterQueue(message);
         }
     }
@@ -47,7 +48,7 @@ public class AzureQueueService implements QueueService {
             SendMessageResult result = deadLetterQueueHelper.sendMessage(message);
             logger.info("Message sent to DLQ. MessageId: {}", result.getMessageId());
         } catch (Exception e) {
-            logger.error("Failed to send message to DLQ", e);
+            ErrorHandler.handleException("Failed to send message to DLQ", e);
         }
     }
 

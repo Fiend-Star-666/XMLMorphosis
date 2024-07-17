@@ -1,6 +1,7 @@
 package org.xml_to_db.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.xml_to_db.core.handlers.ErrorHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,14 +27,15 @@ public class ConfigLoader {
     }
 
     private void loadProperties() {
-        try (InputStream input = ConfigLoader.class.getResourceAsStream(PROPERTIES_FILE)) {
+        String env = System.getProperty("env", "dev");
+        String propertiesFile = String.format("/application-%s.properties", env);
+        try (InputStream input = ConfigLoader.class.getResourceAsStream(propertiesFile)) {
             if (input == null) {
                 throw new IOException("Unable to find " + PROPERTIES_FILE);
             }
             properties.load(input);
         } catch (IOException ex) {
-            log.error("Error loading properties file: {}", ex.getMessage());
-            throw new RuntimeException("Error loading properties file.", ex);
+            ErrorHandler.handleException("Error loading properties file: {}", ex);
         }
     }
 

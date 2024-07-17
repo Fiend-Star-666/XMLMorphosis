@@ -6,7 +6,9 @@ import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 import org.xml_to_db.config.ConfigLoader;
+import org.xml_to_db.core.handlers.ErrorHandler;
 import org.xml_to_db.core.processors.XMLProcessor;
 import org.xml_to_db.core.processors.XMLProcessorFactory;
 import org.xml_to_db.database.DatabaseConnection;
@@ -17,10 +19,14 @@ import org.xml_to_db.storage.StorageService;
 import org.xml_to_db.storage.StorageServiceFactory;
 import org.xml_to_db.utils.XMLValidator;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
+import java.io.StringReader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -58,7 +64,7 @@ public class HttpTriggerFunction extends BaseFunction {
 
             return request.createResponseBuilder(HttpStatus.OK).body("Data processed successfully").build();
         } catch (Exception e) {
-            log.error("Error in processRequest: {}", e.getMessage(), e);
+            ErrorHandler.handleException("Error in processRequest:", e);
             return request.createResponseBuilder(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("An error occurred while processing the request: " + e.getMessage())
                     .build();
@@ -75,12 +81,9 @@ public class HttpTriggerFunction extends BaseFunction {
             }
 
             String xmlContent = storageService.readFileContent(xmlFilePath);
+            Document document = parseXmlDocument(xmlContent);
 
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(new ByteArrayInputStream(xmlContent.getBytes()));
-
-            XMLProcessor processor = XMLProcessorFactory.getProcessor(xmlFilePath, xsdFilePath);
+            XMLProcessor<?> processor = XMLProcessorFactory.getProcessor(xmlFilePath, xsdFilePath);
             Object processedData = processor.process(document);
 
             try (DatabaseConnection connection = DatabaseConnectionFactory.getConnection(xmlFilePath, xsdFilePath)) {
@@ -89,9 +92,17 @@ public class HttpTriggerFunction extends BaseFunction {
 
             log.info("Data processed successfully for file: {}", xmlFilePath);
         } catch (Exception e) {
-            log.error("Error processing XML file: {}", e.getMessage(), e);
+            ErrorHandler.handleException("Error processing XML file: {}", e);
             sendToDeadLetterQueue(xmlFilePath, e.getMessage());
         }
+    }
+
+    private Document parseXmlDocument(String xmlContent) throws Exception {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        return builder.parse(new InputSource(new StringReader(xmlContent)));
     }
 
     private void sendToDeadLetterQueue(String filePath, String errorMessage) {
@@ -99,7 +110,7 @@ public class HttpTriggerFunction extends BaseFunction {
             String message = "File: %s, Error: %s".formatted(filePath, errorMessage);
             queueService.sendToDeadLetterQueue(message);
         } catch (Exception e) {
-            log.error("Failed to send message to dead-letter queue: {}", e.getMessage(), e);
+            ErrorHandler.handleException("Failed to send message to dead-letter queue:", e);
         }
     }
 

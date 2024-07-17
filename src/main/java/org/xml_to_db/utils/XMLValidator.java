@@ -4,6 +4,7 @@ import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.Unmarshaller;
 import lombok.extern.slf4j.Slf4j;
+import org.xml_to_db.core.handlers.ErrorHandler;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
@@ -27,7 +28,7 @@ public class XMLValidator {
             validator.validate(new StreamSource(xmlPath));
             return true;
         } catch (Exception e) {
-            log.error("XML Validation Error: {}", e.getMessage(), e);
+            ErrorHandler.handleException("XML Validation Error:", e);
             return false;
         }
     }

@@ -10,12 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DefaultXMLProcessor implements XMLProcessor {
+public class DefaultXMLProcessor implements XMLProcessor<Map<String, Object>> {
 
     @Override
-    public Object process(Document document) {
+    public Map<String, Object> process(Document document) {
         Element rootElement = document.getDocumentElement();
-        return processElement(rootElement);
+        return (Map<String, Object>) processElement(rootElement);
     }
 
     private Object processElement(Element element) {

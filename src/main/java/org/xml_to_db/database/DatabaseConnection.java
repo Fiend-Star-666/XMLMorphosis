@@ -22,11 +22,10 @@ public class DatabaseConnection implements AutoCloseable {
     }
 
     public void save(Object data, String tableName) throws SQLException {
-        if (!(data instanceof ParsedData)) {
+        if (!(data instanceof ParsedData parsedData)) {
             log.error("Invalid data type. Expected ParsedData but got {}", data.getClass().getName());
             throw new IllegalArgumentException("Data must be of type ParsedData");
         }
-        ParsedData parsedData = (ParsedData) data;
         Map<String, String> fields = parsedData.getFields();
 
         String sql = generateInsertSQL(fields, tableName);
@@ -42,7 +41,7 @@ public class DatabaseConnection implements AutoCloseable {
         StringBuilder values = new StringBuilder();
 
         for (String fieldName : fields.keySet()) {
-            if (columns.length() > 0) {
+            if (!columns.isEmpty()) {
                 columns.append(", ");
                 values.append(", ");
             }

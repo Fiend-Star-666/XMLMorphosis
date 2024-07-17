@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<company-structures>
+    <company-structure>
+        <companyId>1</companyId>
+        <companyName>TechInnovate Solutions</companyName>
+        <headquarters>
+            <street>123 Tech Avenue</street>
+            <city>San Francisco</city>
+            <state>California</state>
+            <zipCode>94105</zipCode>
+            <country>United States</country>
+        </headquarters>
+        <departments>
+            <department>
+                <departmentId>101</departmentId>
+                <departmentName>Software Development</departmentName>
+                <manager>
+                    <employeeId>1001</employeeId>
+                    <firstName>Alice</firstName>
+                    <lastName>Johnson</lastName>
+                    <position>Development Manager</position>
+                    <hireDate>2015-03-15</hireDate>
+                    <salary>150000.00</salary>
+                    <skills>
+                        <skill>
+                            <key>programming</key>
+                            <value>Java, Python, C++</value>
+                        </skill>
+                        <skill>
+                            <key>management</key>
+                            <value>Agile, Scrum</value>
+                        </skill>
+                    </skills>
+                </manager>
+                <employees>
+                    <employee>
+                        <employeeId>1002</employeeId>
+                        <firstName>Bob</firstName>
+                        <lastName>Smith</lastName>
+                        <position>Senior Developer</position>
+                        <hireDate>2017-06-01</hireDate>
+                        <salary>120000.00</salary>
+                        <skills>
+                            <skill>
+                                <key>programming</key>
+                                <value>Java, Kotlin, Spring</value>
+                            </skill>
+                        </skills>
+                    </employee>
+                    <employee>
+                        <employeeId>1003</employeeId>
+                        <firstName>Carol</firstName>
+                        <lastName>Davis</lastName>
+                        <position>Full Stack Developer</position>
+                        <hireDate>2018-09-15</hireDate>
+                        <salary>110000.00</salary>
+                        <skills>
+                            <skill>
+                                <key>programming</key>
+                                <value>JavaScript, React, Node.js</value>
+                            </skill>
+                        </skills>
+                    </employee>
+                </employees>
+                <established>2015-01-01</established>
+            </department>
+            <department>
+                <departmentId>102</departmentId>
+                <departmentName>Data Science</departmentName>
+                <manager>
+                    <employeeId>1004</employeeId>
+                    <firstName>David</firstName>
+                    <lastName>Wilson</lastName>
+                    <position>Data Science Manager</position>
+                    <hireDate>2016-05-01</hireDate>
+                    <salary>160000.00</salary>
+                    <skills>
+                        <skill>
+                            <key>data_science</key>
+                            <value>Machine Learning, Big Data, Python</value>
+                        </skill>
+                        <skill>
+                            <key>management</key>
+                            <value>Team Leadership, Project Management</value>
+                        </skill>
+                    </skills>
+                </manager>
+                <employees>
+                    <employee>
+                        <employeeId>1005</employeeId>
+                        <firstName>Eva</firstName>
+                        <lastName>Brown</lastName>
+                        <position>Senior Data Scientist</position>
+                        <hireDate>2018-03-01</hireDate>
+                        <salary>130000.00</salary>
+                        <skills>
+                            <skill>
+                                <key>data_science</key>
+                                <value>Deep Learning, NLP, R</value>
+                            </skill>
+                        </skills>
+                    </employee>
+                </employees>
+                <established>2016-01-01</established>
+            </department>
+        </departments>
+        <employeeDirectory>
+            <entry>
+                <key>alice.johnson@techinnovate.com</key>
+                <value>
+                    <employeeId>1001</employeeId>
+                    <firstName>Alice</firstName>
+                    <lastName>Johnson</lastName>
+                    <position>Development Manager</position>
+                    <hireDate>2015-03-15</hireDate>
+                    <salary>150000.00</salary>
+                    <skills>
+                        <skill>
+                            <key>programming</key>
+                            <value>Java, Python, C++</value>
+                        </skill>
+                        <skill>
+                            <key>management</key>
+                            <value>Agile, Scrum</value>
+                        </skill>
+                    </skills>
+                </value>
+            </entry>
+            <entry>
+                <key>bob.smith@techinnovate.com</key>
+                <value>
+                    <employeeId>1002</employeeId>
+                    <firstName>Bob</firstName>
+                    <lastName>Smith</lastName>
+                    <position>Senior Developer</position>
+                    <hireDate>2017-06-01</hireDate>
+                    <salary>120000.00</salary>
+                    <skills>
+                        <skill>
+                            <key>programming</key>
+                            <value>Java, Kotlin, Spring</value>
+                        </skill>
+                    </skills>
+                </value>
+            </entry>
+        </employeeDirectory>
+        <financialInfo>
+            <annualRevenue>50000000.00</annualRevenue>
+            <operatingCosts>35000000.00</operatingCosts>
+            <quarterlyEarnings>
+                <entry>
+                    <key>Q1 2023</key>
+                    <value>12500000.00</value>
+                </entry>
+                <entry>
+                    <key>Q2 2023</key>
+                    <value>13000000.00</value>
+                </entry>
+                <entry>
+                    <key>Q3 2023</key>
+                    <value>13500000.00</value>
+                </entry>
+                <entry>
+                    <key>Q4 2023</key>
+                    <value>14000000.00</value>
+                </entry>
+            </quarterlyEarnings>
+            <investments>
+                <investment>
+                    <investmentName>AI Research Project</investmentName>
+                    <amount>5000000.00</amount>
+                    <investmentDate>2023-01-15</investmentDate>
+                    <category>Research and Development</category>
+                </investment>
+                <investment>
+                    <investmentName>Cloud Infrastructure Upgrade</investmentName>
+                    <amount>3000000.00</amount>
+                    <investmentDate>2023-03-01</investmentDate>
+                    <category>Infrastructure</category>
+                </investment>
+            </investments>
+        </financialInfo>
+        <foundedDate>2010-05-01</foundedDate>
+        <industryTags>
+            <tag>Technology</tag>
+            <tag>Software</tag>
+            <tag>AI</tag>
+            <tag>Cloud Computing</tag>
+        </industryTags>
+        <departmentProjects>
+            <entry>
+                <key>Software Development</key>
+                <value>
+                    <project>Cloud Migration</project>
+                    <project>AI Integration</project>
+                    <project>Mobile App Development</project>
+                </value>
+            </entry>
+            <entry>
+                <key>Data Science</key>
+                <value>
+                    <project>Predictive Analytics Platform</project>
+                    <project>Natural Language Processing Engine</project>
+                </value>
+            </entry>
+        </departmentProjects>
+        <isPubliclyTraded>true</isPubliclyTraded>
+        <lastUpdated>2023-07-17</lastUpdated>
+        <updatedBy>system</updatedBy>
+    </company-structure>
+
+    <company-structure>
+        <companyId>2</companyId>
+        <companyName>GreenEnergy Innovations</companyName>
+        <headquarters>
+            <street>456 Eco Boulevard</street>
+            <city>Austin</city>
+            <state>Texas</state>
+            <zipCode>78701</zipCode>
+            <country>United States</country>
+        </headquarters>
+        <departments>
+            <department>
+                <departmentId>201</departmentId>
+                <departmentName>Solar Technology</departmentName>
+                <manager>
+                    <employeeId>2001</employeeId>
+                    <firstName>Frank</firstName>
+                    <lastName>Lee</lastName>
+                    <position>Solar Tech Manager</position>
+                    <hireDate>2018-07-01</hireDate>
+                    <salary>140000.00</salary>
+                    <skills>
+                        <skill>
+                            <key>solar_tech</key>
+                            <value>Photovoltaics, Energy Storage</value>
+                        </skill>
+                        <skill>
+                            <key>management</key>
+                            <value>Project Management, Team Leadership</value>
+                        </skill>
+                    </skills>
+                </manager>
+                <employees>
+                    <employee>
+                        <employeeId>2002</employeeId>
+                        <firstName>Grace</firstName>
+                        <lastName>Chen</lastName>
+                        <position>Senior Solar Engineer</position>
+                        <hireDate>2019-02-15</hireDate>
+                        <salary>115000.00</salary>
+                        <skills>
+                            <skill>
+                                <key>solar_engineering</key>
+                                <value>Solar Panel Design, Efficiency Optimization</value>
+                            </skill>
+                        </skills>
+                    </employee>
+                </employees>
+                <established>2018-05-01</established>
+            </department>
+        </departments>
+        <employeeDirectory>
+            <entry>
+                <key>frank.lee@greenenergy.com</key>
+                <value>
+                    <employeeId>2001</employeeId>
+                    <firstName>Frank</firstName>
+                    <lastName>Lee</lastName>
+                    <position>Solar Tech Manager</position>
+                    <hireDate>2018-07-01</hireDate>
+                    <salary>140000.00</salary>
+                    <skills>
+                        <skill>
+                            <key>solar_tech</key>
+                            <value>Photovoltaics, Energy Storage</value>
+                        </skill>
+                        <skill>
+                            <key>management</key>
+                            <value>Project Management, Team Leadership</value>
+                        </skill>
+                    </skills>
+                </value>
+            </entry>
+            <entry>
+                <key>isabella.martinez@greenenergy.com</key>
+                <value>
+                    <employeeId>2004</employeeId>
+                    <firstName>Isabella</firstName>
+                    <lastName>Martinez</lastName>
+                    <position>Wind Energy Director</position>
+                    <hireDate>2019-01-15</hireDate>
+                    <salary>145000.00</salary>
+                    <skills>
+                        <skill>
+                            <key>wind_energy</key>
+                            <value>Turbine Design, Wind Farm Planning</value>
+                        </skill>
+                        <skill>
+                            <key>management</key>
+                            <value>Strategic Planning, Resource Allocation</value>
+                        </skill>
+                    </skills>
+                </value>
+            </entry>
+        </employeeDirectory>
+        <financialInfo>
+            <annualRevenue>75000000.00</annualRevenue>
+            <operatingCosts>55000000.00</operatingCosts>
+            <quarterlyEarnings>
+                <entry>
+                    <key>Q1 2023</key>
+                    <value>18000000.00</value>
+                </entry>
+                <entry>
+                    <key>Q2 2023</key>
+                    <value>19500000.00</value>
+                </entry>
+                <entry>
+                    <key>Q3 2023</key>
+                    <value>20000000.00</value>
+                </entry>
+                <entry>
+                    <key>Q4 2023</key>
+                    <value>21500000.00</value>
+                </entry>
+            </quarterlyEarnings>
+            <investments>
+                <investment>
+                    <investmentName>Advanced Solar Cell Research</investmentName>
+                    <amount>7000000.00</amount>
+                    <investmentDate>2023-02-01</investmentDate>
+                    <category>Research and Development</category>
+                </investment>
+                <investment>
+                    <investmentName>Offshore Wind Farm Project</investmentName>
+                    <amount>15000000.00</amount>
+                    <investmentDate>2023-04-15</investmentDate>
+                    <category>Infrastructure</category>
+                </investment>
+            </investments>
+        </financialInfo>
+        <foundedDate>2015-08-15</foundedDate>
+        <industryTags>
+            <tag>Renewable Energy</tag>
+            <tag>Solar Power</tag>
+            <tag>Wind Energy</tag>
+            <tag>Sustainability</tag>
+        </industryTags>
+        <departmentProjects>
+            <entry>
+                <key>Solar Technology</key>
+                <value>
+                    <project>High-Efficiency Solar Panel Development</project>
+                    <project>Solar Energy Storage Solutions</project>
+                    <project>Solar Farm Optimization</project>
+                </value>
+            </entry>
+            <entry>
+                <key>Wind Energy</key>
+                <value>
+                    <project>Next-Gen Wind Turbine Design</project>
+                    <project>Offshore Wind Farm Feasibility Study</project>
+                </value>
+            </entry>
+        </departmentProjects>
+        <isPubliclyTraded>false</isPubliclyTraded>
+        <lastUpdated>2023-07-18</lastUpdated>
+        <updatedBy>system</updatedBy>
+    </company-structure>
+
+    <!-- You can add more company-structure elements here to further expand the dataset -->
+</company-structures>
